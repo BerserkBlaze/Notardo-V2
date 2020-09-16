@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Knewave&family=Lato:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/login.css">
     <title>Login</title>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
@@ -36,28 +38,28 @@
 
 <body>
     <main>
-        <section class="signIn">
+        <section class="signIn" id="signIn">
             <div>
-                <h1>SIGN IN</h1>
+                <h1>INICIAR SESIÓN</h1>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 <input type="email" placeholder="user@email.com">
                 <input type="password" placeholder="password">
-                <button>Sign in</button>
-                <div>
-                    <a href="">Forgot your password?</a>
-                    <a href="">Sign up</a>
+                <button>Iniciar</button>
+                <div class="links">
+                    <a href="">¿Olvidaste la contraseña?</a>
+                    <a href="#signIn" class="colorDif">Registrarse</a>
                 </div>
             </div>
         </section>
         <section class="signUp">
             <div>
-                <h1>SIGN UP</h1>
+                <h1>REGISTRARSE</h1>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 <input type="email" placeholder="user@email.com">
                 <input type="password" placeholder="password">
-                <button>Sign Up</button>
-                <div>
-                    <a href="">Sign in</a>
+                <button>Registrarte</button>
+                <div class="links">
+                    <a href="#signIn" class="colorDif">Iniciar sesión</a>
                 </div>
             </div>
         </section>
