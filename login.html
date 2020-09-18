@@ -42,9 +42,9 @@
             <div>
                 <h1>INICIAR SESIÓN</h1>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                <input type="email" placeholder="user@email.com">
-                <input type="password" placeholder="password">
-                <button>Iniciar</button>
+                <input id="emailSignIn" type="email" placeholder="user@email.com">
+                <input id="passwordSignIn" type="password" placeholder="password">
+                <button onclick="signIn()">Iniciar</button>
                 <div class="links">
                     <a href="">¿Olvidaste la contraseña?</a>
                     <a href="#signIn" class="colorDif">Registrarse</a>
@@ -55,15 +55,17 @@
             <div>
                 <h1>REGISTRARSE</h1>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                <input type="email" placeholder="user@email.com">
-                <input type="password" placeholder="password">
-                <button>Registrarte</button>
+                <input id="emailSignUp" type="email" placeholder="user@email.com">
+                <input id="passwordSignUp" type="password" placeholder="password">
+                <button onclick="registrar()">Registrarte</button>
                 <div class="links">
                     <a href="#signIn" class="colorDif">Iniciar sesión</a>
                 </div>
             </div>
         </section>
     </main>
+
+    <script src="js/usershandling.js"></script>
 </body>
 
 </html>
