@@ -23,6 +23,9 @@ section{
     min-width: 900px;
     min-height: 400px;
 }
+.oculto{
+    display: none;
+}
 section div:nth-child(1){
     width: 40%;
     height: 70%;

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Knewave&family=Lato:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/login.css">
+    <script src="js/main.js"></script>
     <title>Login</title>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
@@ -47,11 +48,11 @@
                 <button onclick="signIn()">Iniciar</button>
                 <div class="links">
                     <a href="">¿Olvidaste la contraseña?</a>
-                    <a href="#signIn" class="colorDif">Registrarse</a>
+                    <a href="#signIn" class="colorDif" onclick="cambiarSeccion(1)">Registrarse</a>
                 </div>
             </div>
         </section>
-        <section class="signUp">
+        <section class="signUp oculto" id="signUp">
             <div>
                 <h1>REGISTRARSE</h1>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
@@ -59,7 +60,7 @@
                 <input id="passwordSignUp" type="password" placeholder="password">
                 <button onclick="registrar()">Registrarte</button>
                 <div class="links">
-                    <a href="#signIn" class="colorDif">Iniciar sesión</a>
+                    <a href="#signIn" class="colorDif" onclick="cambiarSeccion(0)">Iniciar sesión</a>
                 </div>
             </div>
         </section>
