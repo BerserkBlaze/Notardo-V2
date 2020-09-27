@@ -95,6 +95,7 @@ button:hover{
 .links{
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-end;
 }
 .links a{
     width: auto;
@@ -109,12 +110,6 @@ button:hover{
 }
 .links a:hover{
     background-size: 100% 2px;
-}
-.signIn .links{
-    justify-content: space-between;
-}
-.signUp .links{
-    justify-content: flex-end;
 }
 .links .colorDif{
     color: var(--color-purple-light);
