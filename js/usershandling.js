@@ -29,7 +29,4 @@ function signIn() {
       var errorMessage = error.message;
       console.log(errorCode, " ", errorMessage);
     });
-
- 
-
 }
