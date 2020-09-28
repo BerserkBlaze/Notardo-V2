@@ -191,6 +191,11 @@ input[type="text"], input[type="date"]{
 }
 .form_btns input[type="submit"]{
     width: 150px;
+    transition: .5s;
+}
+.form_btns input[type="submit"]:hover{
+    width: 150px;
+    transform: scale(0.95);
 }
 .form_btns #btn_create{
     background-color: var(--color-yellow);
