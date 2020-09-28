@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Knewave&family=Lato:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/sweetalert2.min.css">
+    <script src="js/main.js"></script>
+    <script src="js/sweetalert2.all.min.js"></script>
     <title>Document</title>
 </head>
 
@@ -19,40 +22,108 @@
             <div><a href="#CerrarSesión">Cerrar Sesión</a></div>
         </nav>
     </header>
-        <section id="home">
-            <main>
-                <div><h1 class="title">METAS</h1></div>
-                <div class="list">
-                    <div class="item complete">
-                        <h1>Nombre Meta 1 </h1>
-                        <img src="img/deleted.png" alt="" class="btn_deleted">
-                        <img src="img/edit.png" alt="" class="btn_edit">
-                    </div>
-                    <div class="item incomplete">
-                        <h1>Nombre Meta 2</h1>
-                        <img src="img/deleted.png" alt="" class="btn_deleted">
-                        <img src="img/edit.png" alt="" class="btn_edit">
-                    </div>
-                    <div class="item incomplete">
-                        <h1>Nombre Meta 2</h1>
-                        <img src="img/deleted.png" alt="" class="btn_deleted">
-                        <img src="img/edit.png" alt="" class="btn_edit">
-                    </div>
-                    <div class="item incomplete">
-                        <h1>Nombre Meta 2</h1>
-                        <img src="img/deleted.png" alt="" class="btn_deleted">
-                        <img src="img/edit.png" alt="" class="btn_edit">
-                    </div>
-                    <div class="item incomplete">
-                        <h1>Nombre Meta 2</h1>
-                        <img src="img/deleted.png" alt="" class="btn_deleted">
-                        <img src="img/edit.png" alt="" class="btn_edit">
-                    </div>
+    <section id="home">
+        <main>
+            <div>
+                <h1 class="title">METAS</h1>
+            </div>
+            <div class="list">
+                <div class="item complete">
+                    <h1>Nombre Meta 1 </h1>
+                    <img src="img/deleted.png" alt="" class="btn_deleted">
+                    <img src="img/edit.png" alt="" class="btn_edit">
                 </div>
-                <div class="footer">
-                    <img src="img/add.png" alt="" class="btn_add">
+                <div class="item incomplete">
+                    <h1>Nombre Meta 2</h1>
+                    <img src="img/deleted.png" alt="" class="btn_deleted">
+                    <img src="img/edit.png" alt="" class="btn_edit">
                 </div>
-            </main>
-        </section>
+                <div class="item incomplete">
+                    <h1>Nombre Meta 2</h1>
+                    <img src="img/deleted.png" alt="" class="btn_deleted">
+                    <img src="img/edit.png" alt="" class="btn_edit">
+                </div>
+                <div class="item incomplete">
+                    <h1>Nombre Meta 2</h1>
+                    <img src="img/deleted.png" alt="" class="btn_deleted">
+                    <img src="img/edit.png" alt="" class="btn_edit">
+                </div>
+                <div class="item incomplete">
+                    <h1>Nombre Meta 2</h1>
+                    <img src="img/deleted.png" alt="" class="btn_deleted">
+                    <img src="img/edit.png" alt="" class="btn_edit">
+                </div>
+            </div>
+            <div class="footer">
+                <img src="img/add.png" alt="" class="btn_add">
+            </div>
+        </main>
+    </section>
+    <section id="home">
+        <main>
+            <div>
+                <h1 class="title">Nueva Meta</h1>
+            </div>
+            <form action="">
+                <div>
+                    <label for="Mname">Nombre:</label><br>
+                    <input type="text" id="Mname" name="Mname">
+                </div>
+                <div>
+                    <label for="Mdescription">Descripción:</label><br>
+                    <input type="text" id="Mdescription" name="Mdescription">
+                </div>
+                <div class="Mform_date">
+                    <label for="MDate_start">Fecha de inicio:</label>
+                    <label for="MDate_end">Fecha de fin:</label>
+                    <input type="date" id="MDate_start" name="Mdate_start">
+                    <input type="date" id="MDate_end" name="Mdate_end">
+                </div>
+                <div class="form_btns">
+                    <input type="submit" id="btn_create" value="Crear">
+                    <input type="submit" id="btn_cancel" value="Cancelar">
+                </div>
+            </form>
+        </main>
+    </section>
+    <section id="work">
+        <main>
+            <div>
+                <h1 class="title">Nombre meta</h1>
+                <p class="work_description">DESCRIPCIÓN META Lorem ipsum dolor sit amet consecte adipisicing elit. Possimus, odio laborum</p>
+            </div>
+            <div class="list">
+                <div class="item complete" onclick="workAlert()">
+                    <h1>Nombre tarea 1 </h1>
+                    <img src="img/deleted.png" alt="" class="btn_deleted">
+                    <img src="img/edit.png" alt="" class="btn_edit">
+                </div>
+                <div class="item incomplete">
+                    <h1>Nombre tarea 2</h1>
+                    <img src="img/deleted.png" alt="" class="btn_deleted">
+                    <img src="img/edit.png" alt="" class="btn_edit">
+                </div>
+                <div class="item incomplete">
+                    <h1>Nombre tarea 2</h1>
+                    <img src="img/deleted.png" alt="" class="btn_deleted">
+                    <img src="img/edit.png" alt="" class="btn_edit">
+                </div>
+                <div class="item incomplete">
+                    <h1>Nombre tarea 2</h1>
+                    <img src="img/deleted.png" alt="" class="btn_deleted">
+                    <img src="img/edit.png" alt="" class="btn_edit">
+                </div>
+                <div class="item incomplete">
+                    <h1>Nombre tarea 2</h1>
+                    <img src="img/deleted.png" alt="" class="btn_deleted">
+                    <img src="img/edit.png" alt="" class="btn_edit">
+                </div>
+            </div>
+            <div class="footer">
+                <img src="img/add.png" alt="" class="btn_add">
+            </div>
+        </main>
+    </section>
 </body>
+
 </html>
