@@ -57,9 +57,7 @@ section div h1{
 h1{
     color: var(--color-purple-light);
 }
-/* .signUp h1{
-    color: var(--color-yellow);
-} */
+
 /* Parrafo */
 section div p{
     text-align: center;
@@ -114,6 +112,37 @@ button:hover{
 .links .colorDif{
     color: var(--color-purple-light);
 }
-/* .signUp .colorDif{
-    color: var(--color-yellow);
-} */
+
+/* Configuración splash */
+.splash{
+    background: var(--color-orange-dark);
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.splash .loader{
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    padding: 0;
+    background: var(--color-yellow);
+    border: 13px solid var(--color-orange-dark);
+    border-top: 13px solid var(--color-orange-light);
+    border-bottom: 13px solid var(--color-orange-light);
+    border-right: 13px solid var(--color-orange-light);
+    animation: spin 2s linear infinite;
+    grid-row: 1/2;
+    grid-column: 2/3;
+    justify-self: center;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+.splash h1{
+    font-size: 40px;
+    font-family: var(--font-title);
+    text-align: center;
+    grid-row: 1/2;
+    grid-column: 2/3 ;
+    z-index: 1;
+}
