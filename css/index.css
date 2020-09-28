@@ -70,6 +70,9 @@ section{
 #home{
     background: var(--color-orange-light);
 }
+#addHome{
+    background: var(--color-orange-light);
+}
 /* configuración general main */
 main{
     background-color: var(--color-white);
@@ -219,4 +222,9 @@ input[type="text"], input[type="date"]{
 }
 .alertFontword{
     font-family: var(--font-words);
+}
+
+/*section adicionar tareas*/
+#addWork{
+    background-color: var(--color-yellow);
 }
