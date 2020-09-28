@@ -6,7 +6,7 @@ body{
 }
 /* Paleta de colores y fuentes */
 :root{
-    --color-white: #FFFFFF;
+    --color-white: #F2F2F2;
     --color-black: #0D0D0D;
     --color-yellow:#FFAF53;
     --color-orange-light:#E88554;
@@ -62,13 +62,16 @@ header nav div:hover{
 /* section */
 section{
     display: flex;
+    height: calc(100vh - 49px);
+    width: 100%;
 }
 
 /* Section home*/
 #home{
     background: var(--color-orange-light);
-    width: 100%;
-    height: calc(100vh - 49px);
+}
+#addHome{
+    background: var(--color-orange-light);
 }
 /* configuración general main */
 main{
@@ -148,4 +151,80 @@ main .footer{
 }
 .btn_add:hover{
     transform: scale(1.1);
+}
+/*formularios*/
+form{
+    width: 70%;
+    height: 70vh;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-family: var(--font-words);
+}
+label{
+    font-size: 30px;
+}
+input{
+    font-family: var(--font-words);
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+    border:none;
+}
+input[type="text"]{
+    width: 100%;
+}
+input[type="text"], input[type="date"]{
+    color: var(--color-gray);
+    background: white;
+}
+.Mform_date{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-column-gap: 10px;
+}
+.form_btns{
+    display: flex;
+    justify-content: space-around;
+}
+.form_btns input[type="submit"]{
+    width: 150px;
+}
+.form_btns #btn_create{
+    background-color: var(--color-yellow);
+    color: var(--color-black);
+}
+.form_btns #btn_cancel{
+    background-color: var(--color-orange-dark);
+    color: var(--color-white);
+}
+
+/* Section tareas */
+#work{
+    background: var(--color-yellow);
+}
+#work .title{
+    letter-spacing: 0px;
+    font-size: 40px;
+}
+.work_description{
+    padding: 0px 20px;
+    margin-bottom:20px;
+    font-size: 20px;
+    font-family: var(--font-words);
+}
+
+/*Alert title*/
+.alertTitle{
+    font-family: sensei;
+}
+.alertFontword{
+    font-family: var(--font-words);
+}
+
+/*section adicionar tareas*/
+#addWork{
+    background-color: var(--color-yellow);
 }
