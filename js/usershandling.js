@@ -4,14 +4,14 @@ function signUp() {
   var password = document.getElementById("passwordSignUp").value;
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then(function (){
-    console.log("Se creó la cuente correctamente");
-  })
-  .catch(function (error) {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    console.log(errorCode, " ", errorMessage);
-  });
+    .then(function () {
+      console.log("Se creó la cuente correctamente");
+    })
+    .catch(function (error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode, " ", errorMessage);
+    });
 
 }
 
@@ -29,4 +29,12 @@ function signIn() {
       var errorMessage = error.message;
       console.log(errorCode, " ", errorMessage);
     });
+}
+
+function signOut() {
+  firebase.auth().signOut().then(function () {
+    console.log("Cerró sesión correctamente");
+  }).catch(function (error) {
+    // An error happened.
+  });
 }
