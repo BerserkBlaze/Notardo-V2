@@ -2,7 +2,7 @@
     margin:0;
 }
 body{
-    min-width: 700px;
+    min-width: 1020px;
 }
 /* Paleta de colores y fuentes */
 :root{
@@ -22,7 +22,131 @@ body{
     font-family: sensei;
     src: url(../font/Sensei-Medium.otf);
   }
-
+/* .oculto{
+    display: none;
+} */
+/* Login y splash sin header */
+.withoutHeader{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-width: 900px;
+    min-height: 400px; */
+}
+    /* splash */
+.splash{
+    background: var(--color-orange-dark);
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.splash .loader{
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    padding: 0;
+    background: var(--color-yellow);
+    border: 13px solid var(--color-orange-dark);
+    border-top: 13px solid var(--color-orange-light);
+    border-bottom: 13px solid var(--color-orange-light);
+    border-right: 13px solid var(--color-orange-light);
+    animation: spin 2s linear infinite;
+    grid-row: 1/2;
+    grid-column: 2/3;
+    justify-self: center;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+    }
+.splash h1{
+    font-size: 40px;
+    font-family: var(--font-title);
+    text-align: center;
+    grid-row: 1/2;
+    grid-column: 2/3 ;
+    z-index: 1;
+    color: var(--color-purple-light);
+}
+    /* Login */
+.login div:nth-child(1){
+    width: 40%;
+    height: 70%;
+    background-color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 50px 0;
+}
+.signIn{
+    background-color: var(--color-yellow);
+}
+.signUp{
+    background-color: var(--color-orange-dark);
+}
+    /* fuentes de las letras y tamaños del login*/
+.login div > *{
+    width: 60%;
+    font-size: 18px;
+    font-family: var(--font-words);
+}
+.login div h1{
+    font-size: 40px;
+    font-family: var(--font-title);
+    text-align: center;
+    color: var(--color-purple-light);
+}
+.login div p{
+    text-align: center;
+    font-family: var(--font-words);
+    color: var(--color-gray);
+}
+.login input{
+    border: 1px solid var(--color-gray);
+    border-radius: 5px;
+    height: 35px;
+    padding-left: 8px;
+}
+.login button{
+    border-radius: 5px;
+    border: none;
+    color: var(--color-white);
+    height: 52px;
+    transition: 0.5s;
+}
+.login button:hover{
+    transform: scale(0.95) ;
+}
+.signIn button{
+    background-color: var(--color-orange-dark);
+}
+.signUp button{
+    background-color: var(--color-orange-light);
+}
+.login .links{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+.login .links a{
+    width: auto;
+    text-decoration: none;
+    transition: 1s;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size .3s;
+    color: var(--color-gray);
+}
+.login .links a:hover{
+    background-size: 100% 2px;
+}
+.login .links .colorDif{
+    color: var(--color-purple-light);
+}
 /* Configuración header */
 header{
     display: flex;

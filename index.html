@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <header>
+    <header class="oculto">
         <h1 class="title_proyect">NOTARDO</h1>
         <nav>
             <div class="position"><a href="#home">Home</a></div>
@@ -22,6 +22,34 @@
             <div><a href="#CerrarSesión">Cerrar Sesión</a></div>
         </nav>
     </header>
+    <section class="withoutHeader splash" id="splash">
+        <div class="loader"></div>
+        <h1>NOTARDO</h1>
+    </section>
+    <section class="withoutHeader signIn login" id="signIn">
+        <div>
+            <h1>INICIAR SESIÓN</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <input id="emailSignIn" type="email" placeholder="user@email.com">
+            <input id="passwordSignIn" type="password" placeholder="password">
+            <button onclick="signIn()">Iniciar</button>
+            <div class="links">
+                <a href="#signIn" class="colorDif" onclick="cambiarSeccion(1)">Registrarse</a>
+            </div>
+        </div>
+    </section>
+    <section class="withoutHeader signUp login" id="signUp">
+        <div>
+            <h1>REGISTRARSE</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <input id="emailSignUp" type="email" placeholder="user@email.com">
+            <input id="passwordSignUp" type="password" placeholder="password">
+            <button onclick="signUp()">Registrarte</button>
+            <div class="links">
+                <a href="#signIn" class="colorDif" onclick="cambiarSeccion(0)">Iniciar sesión</a>
+            </div>
+        </div>
+    </section>
     <section id="home">
         <main>
             <div>
