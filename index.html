@@ -7,9 +7,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Knewave&family=Lato:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/sweetalert2.min.css">
-    <script src="js/main.js"></script>
     <script src="js/sweetalert2.all.min.js"></script>
     <title>Document</title>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
+    <script src="js/init-firebase.js"></script>
+
+    <script src="js/main.js"></script>
+
+
 </head>
 
 <body>
@@ -19,7 +33,7 @@
             <div class="position"><a href="#home">Home</a></div>
             <div><a href="#Calendario">Calendario</a></div>
             <div><a href="#Estadistica">Estadisticas</a></div>
-            <div><a href="#CerrarSesión">Cerrar Sesión</a></div>
+            <div><a href="#CerrarSesión" onclick="signOut()">Cerrar Sesión</a></div>
         </nav>
     </header>
     <section class="withoutHeader splash" id="splash">
@@ -95,21 +109,21 @@
             <form action="">
                 <div>
                     <label for="Mname">Nombre:</label><br>
-                    <input type="text" id="Mname" name="Mname">
+                    <input type="text" id="Mname" name="Mname" required>
                 </div>
                 <div>
                     <label for="Mdescription">Descripción:</label><br>
-                    <input type="text" id="Mdescription" name="Mdescription">
+                    <input type="text" id="Mdescription" name="Mdescription" required>
                 </div>
                 <div class="Mform_date">
                     <label for="MDate_start">Fecha de inicio:</label>
                     <label for="MDate_end">Fecha de fin:</label>
-                    <input type="date" id="MDate_start" name="Mdate_start">
-                    <input type="date" id="MDate_end" name="Mdate_end">
+                    <input type="date" id="MDate_start" name="Mdate_start" required>
+                    <input type="date" id="MDate_end" name="Mdate_end" required>
                 </div>
                 <div class="form_btns">
-                    <input type="submit" id="btn_create" value="Crear">
-                    <input type="submit" id="btn_cancel" value="Cancelar">
+                    <input type="button" id="btn_create" value="Crear" onclick="nuevaMeta()">
+                    <input type="button" id="btn_cancel" value="Cancelar">
                 </div>
             </form>
         </main>
@@ -118,7 +132,8 @@
         <main>
             <div>
                 <h1 class="title">Nombre meta</h1>
-                <p class="work_description">DESCRIPCIÓN META Lorem ipsum dolor sit amet consecte adipisicing elit. Possimus, odio laborum</p>
+                <p class="work_description">DESCRIPCIÓN META Lorem ipsum dolor sit amet consecte adipisicing elit.
+                    Possimus, odio laborum</p>
             </div>
             <div class="list">
                 <div class="item complete" onclick="workAlert()">
@@ -177,6 +192,7 @@
             </form>
         </main>
     </section>
+
 </body>
 
 </html>
