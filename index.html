@@ -109,21 +109,21 @@
             <form action="">
                 <div>
                     <label for="Mname">Nombre:</label><br>
-                    <input type="text" id="Mname" name="Mname">
+                    <input type="text" id="Mname" name="Mname" required>
                 </div>
                 <div>
                     <label for="Mdescription">Descripción:</label><br>
-                    <input type="text" id="Mdescription" name="Mdescription">
+                    <input type="text" id="Mdescription" name="Mdescription" required>
                 </div>
                 <div class="Mform_date">
                     <label for="MDate_start">Fecha de inicio:</label>
                     <label for="MDate_end">Fecha de fin:</label>
-                    <input type="date" id="MDate_start" name="Mdate_start">
-                    <input type="date" id="MDate_end" name="Mdate_end">
+                    <input type="date" id="MDate_start" name="Mdate_start" required>
+                    <input type="date" id="MDate_end" name="Mdate_end" required>
                 </div>
                 <div class="form_btns">
                     <input type="button" id="btn_create" value="Crear" onclick="nuevaMeta()">
-                    <input type="submit" id="btn_cancel" value="Cancelar">
+                    <input type="button" id="btn_cancel" value="Cancelar">
                 </div>
             </form>
         </main>
