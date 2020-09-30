@@ -61,17 +61,17 @@ function signOut() {
     firebase.auth().signOut().then(function () {
         console.log("Cerró sesión correctamente"); ///////////// ALERT ACÁ //////////////
     }).catch(function (error) {
-        // An error happened.
+        
     });
 }
 
 /* Permite observar si un usuario está activo */
-var email;
+
 function isLoged() {
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-            email = user.email;
-            console.log("Usuario Activo");
+
+            console.log("Usuario Activo"); //////////// PENDIENTE ///////////
 
         } else {
 
@@ -86,21 +86,44 @@ var db = firebase.firestore();
 
 /* Crea una meta */
 function nuevaMeta() {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
     var nombre = document.getElementById("Mname").value;
     var descripcion = document.getElementById("Mdescription").value;
     var fechaInicio = document.getElementById("MDate_start").value;
     var fechaFin = document.getElementById("MDate_end").value;
 
-    db.collection("usuarios").doc(email).collection("metas").add({
-        nombre: nombre,
-        descripcion: descripcion,
-        fechaInicio: fechaInicio,
-        fechaFin: fechaFin
-    })
-        .then(function (docRef) {
-            console.log("Document written with ID: ", docRef.id);
+    var fechaInDate = new Date(fechaInicio);
+    var fechaFiDate = new Date(fechaFin);
+
+    let date = new Date();
+    let day = date.getDate()
+    let month = date.getMonth() + 1
+    let year = date.getFullYear()
+    var fechaAux;
+    if (month < 10) {
+        fechaAux = year +"-0"+ month +"-"+ day;
+    } else {
+        fechaAux = year +"-"+ month +"-"+ day;
+    }
+    console.log(fechaAux, " ", fechaInicio);
+    var fechaHoy = new Date(fechaAux);
+    console.log(fechaFiDate, " ", fechaInDate, " ", fechaHoy);
+
+    if (nombre != "" && descripcion != "" && fechaInicio != "" && fechaFin != "" && fechaInDate <= fechaFiDate && fechaInDate >= fechaHoy) {
+        db.collection("usuarios").doc(email).collection("metas").add({
+            nombre: nombre,
+            descripcion: descripcion,
+            fechaInicio: fechaInicio,
+            fechaFin: fechaFin
         })
-        .catch(function (error) {
-            console.error("Error adding document: ", error);
-        });
+            .then(function (docRef) {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+            });
+    } else {
+        console.log("No se pudo crear la meta"); ///////////// ALERT ACÁ //////////////
+    }
 }
