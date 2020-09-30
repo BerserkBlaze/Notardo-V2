@@ -7,36 +7,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Knewave&family=Lato:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/sweetalert2.min.css">
-    <script src="js/main.js"></script>
     <script src="js/sweetalert2.all.min.js"></script>
     <title>Document</title>
-     <!-- The core Firebase JS SDK is always required and must be listed first -->
-     <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
 
-     <!-- TODO: Add SDKs for Firebase products that you want to use
+    <!-- TODO: Add SDKs for Firebase products that you want to use
       https://firebase.google.com/docs/web/setup#available-libraries -->
-     <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script>
- 
-     <!-- Add Firebase products that you want to use -->
-     <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
- 
-     <script>
-         // Your web app's Firebase configuration
-         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-         var firebaseConfig = {
-             apiKey: "AIzaSyBUEvDo0xJ1AZCBxlv3ycGm9YiGjKdcxxU",
-             authDomain: "notardo-3a82a.firebaseapp.com",
-             databaseURL: "https://notardo-3a82a.firebaseio.com",
-             projectId: "notardo-3a82a",
-             storageBucket: "notardo-3a82a.appspot.com",
-             messagingSenderId: "50124202449",
-             appId: "1:50124202449:web:62a9865f740fb242f5c0f0",
-             measurementId: "G-C430KGCQ25"
-         };
-         // Initialize Firebase
-         firebase.initializeApp(firebaseConfig);
-         firebase.analytics();
-     </script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
+    <script src="js/init-firebase.js"></script>
+
+    <script src="js/main.js"></script>
+
+
 </head>
 
 <body>
@@ -135,7 +122,7 @@
                     <input type="date" id="MDate_end" name="Mdate_end">
                 </div>
                 <div class="form_btns">
-                    <input type="submit" id="btn_create" value="Crear">
+                    <input type="button" id="btn_create" value="Crear" onclick="nuevaMeta()">
                     <input type="submit" id="btn_cancel" value="Cancelar">
                 </div>
             </form>
@@ -145,7 +132,8 @@
         <main>
             <div>
                 <h1 class="title">Nombre meta</h1>
-                <p class="work_description">DESCRIPCIÓN META Lorem ipsum dolor sit amet consecte adipisicing elit. Possimus, odio laborum</p>
+                <p class="work_description">DESCRIPCIÓN META Lorem ipsum dolor sit amet consecte adipisicing elit.
+                    Possimus, odio laborum</p>
             </div>
             <div class="list">
                 <div class="item complete" onclick="workAlert()">
@@ -205,7 +193,6 @@
         </main>
     </section>
 
-    
 </body>
 
 </html>
