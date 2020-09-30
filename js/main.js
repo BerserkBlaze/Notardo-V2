@@ -31,11 +31,23 @@ function signUp() {
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(function () {
             console.log("Se creó la cuente correctamente"); ///////////// ALERT ACÁ //////////////
+            Swal.fire({
+                icon: 'success',
+                title: 'Se creó la cuenta correctamente',
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
         .catch(function (error) {
             var errorCode = error.code;
             var errorMessage = error.message;
             console.log(errorCode, " ", errorMessage); ///////////// ALERT ACÁ //////////////
+            Swal.fire({
+                icon: 'error',
+                title: errorCode+' '+errorMessage,
+                showConfirmButton: false,
+                timer: 1500
+              })
         });
 
 }
@@ -53,6 +65,12 @@ function signIn() {
             var errorCode = error.code;
             var errorMessage = error.message;
             console.log(errorCode, " ", errorMessage); ///////////// ALERT ACÁ //////////////
+            Swal.fire({
+                icon: 'error',
+                title: errorCode+' '+errorMessage,
+                showConfirmButton: false,
+                timer: 1500
+              })
         });
 }
 
@@ -60,8 +78,14 @@ function signIn() {
 function signOut() {
     firebase.auth().signOut().then(function () {
         console.log("Cerró sesión correctamente"); ///////////// ALERT ACÁ //////////////
+        Swal.fire({
+            icon: 'success',
+            title: 'Cerró sesión correctamente',
+            showConfirmButton: false,
+            timer: 1500
+          })
     }).catch(function (error) {
-        
+
     });
 }
 
@@ -125,5 +149,11 @@ function nuevaMeta() {
             });
     } else {
         console.log("No se pudo crear la meta"); ///////////// ALERT ACÁ //////////////
+        Swal.fire({
+            icon: 'error',
+            title: "No se pudo crear la meta",
+            showConfirmButton: false,
+            timer: 1500
+          })
     }
 }
