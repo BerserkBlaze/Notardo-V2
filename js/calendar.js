@@ -2,6 +2,7 @@ let monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'
 
 let currentDate = new Date();
 let currentDay = currentDate.getDate();
+let currentMonth= currentDate.getMonth();
 let monthNumber = currentDate.getMonth();
 let currentYear = currentDate.getFullYear();
 
@@ -29,15 +30,15 @@ const writeMonth = month => {
     }
 
     for(let i=1; i<=getTotalDays(month); i++){
-        if(i===currentDay) {
-            dates.innerHTML += ` <div class="calendar__date calendar__item calendar__today">${i}</div>`;
+        if(i===currentDay && monthNumber === currentMonth) {
+            dates.innerHTML += ` <div class="calendar__date calendar__item calendar__day calendar__today">${i}</div>`;
         }else{
-            dates.innerHTML += ` <div class="calendar__date calendar__item">${i}</div>`;
+            dates.innerHTML += ` <div class="calendar__date calendar__item calendar__day">${i}</div>`;
         }
     }
 }
 
-// función total de días que tiene que escribir
+// función total de días que tiene que escribir del mes
 const getTotalDays = month => {
     if(month === -1) month = 11;
 
@@ -49,7 +50,7 @@ const getTotalDays = month => {
 
     } else {
 
-        return isLeap() ? 29:28;
+        return isLeap() ? 29:28; // si verdadero 29 sino 28
     }
 }
 // Saber si el año es viciesto o no
@@ -60,13 +61,14 @@ const isLeap = () => {
 const startDay = () => {
     let start = new Date(currentYear, monthNumber, 1);
     return ((start.getDay()-1) === -1) ? 6 : start.getDay()-1;
+    // start.getDay() devuelve el num del día (dom=0, lunes=1,...)
 }
 
 // Dibujar el mes anterior
 const lastMonth = () => {
-    if(monthNumber !== 0){
+    if(monthNumber !== 0){ //¿estamos en enero?
         monthNumber--;
-    }else{
+    }else{ // si lo estamos cambiamos a diciembre y restamos un año
         monthNumber = 11;
         currentYear--;
     }
@@ -75,9 +77,9 @@ const lastMonth = () => {
 }
 // Dibujar el mes siguiente
 const nextMonth = () => {
-    if(monthNumber !== 11){
+    if(monthNumber !== 11){// ¿Estamos en diciembre?
         monthNumber++;
-    }else{
+    }else{ //si lo estamos cambiamos a enero y sumamos un año
         monthNumber = 0;
         currentYear++;
     }
@@ -93,4 +95,4 @@ const setNewDate = () => {
     writeMonth(monthNumber);
 }
 
-writeMonth(monthNumber); 
+writeMonth(monthNumber);

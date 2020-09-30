@@ -392,6 +392,12 @@ input[type="text"], input[type="date"]{
 .calendar__next {
     margin-left: auto;
 }
+.calendar__prev, .calendar__next{
+    transition: .5s;
+}
+.calendar__next:hover, .calendar__prev:hover{
+    transform: scale(0.8);
+}
 .calendar__week{
     background: var(--color-yellow);
 }
@@ -413,6 +419,13 @@ input[type="text"], input[type="date"]{
     width: 25%;
     border-radius: 50%;
     margin: auto;
+}
+.calendar__day:hover{
+    background: var(--color-gray);
+    color: white;
+    width: 30%;
+    border-radius: 20px;
+    justify-self: center;
 }
 .calendar__last-days {
     opacity: .3;
