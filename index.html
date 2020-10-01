@@ -66,30 +66,29 @@
             </div>
         </div>
     </section>
-    <section id="home">
+    <section id="home" class="colorHome">
         <main>
             <div>
                 <h1 class="title">METAS</h1>
             </div>
             <div id="metasList" class="list">
                 <div class="item complete">
-                    <h1>Nombre Meta 1 </h1>
+                    <h1>Ejemplo nombre Meta 1 </h1>
                     <img src="img/deleted.png" alt="" class="btn_deleted">
                     <img src="img/edit.png" alt="" class="btn_edit">
                 </div>
                 <div class="item incomplete">
-                    <h1>Nombre Meta 2</h1>
+                    <h1>Ejemplo nombre Meta 2</h1>
                     <img src="img/deleted.png" alt="" class="btn_deleted">
                     <img src="img/edit.png" alt="" class="btn_edit">
                 </div>
-                
             </div>
             <div class="footer">
                 <img src="img/add.png" alt="" class="btn_add">
             </div>
         </main>
     </section>
-    <section id="addHome">
+    <section id="addHome" class="colorHome">
         <main>
             <div>
                 <h1 class="title">Nueva Meta</h1>
@@ -104,19 +103,46 @@
                     <input type="text" id="Mdescription" name="Mdescription" required>
                 </div>
                 <div class="Mform_date">
-                    <label for="MDate_start">Fecha de inicio:</label>
-                    <label for="MDate_end">Fecha de fin:</label>
-                    <input type="date" id="MDate_start" name="Mdate_start" required>
-                    <input type="date" id="MDate_end" name="Mdate_end" required>
+                    <label for="Mdate_start">Fecha de inicio:</label>
+                    <label for="Mdate_end">Fecha de fin:</label>
+                    <input type="date" id="Mdate_start" name="Mdate_start" required>
+                    <input type="date" id="Mdate_end" name="Mdate_end" required>
                 </div>
                 <div class="form_btns">
-                    <input type="button" id="btn_create" value="Crear" onclick="nuevaMeta()">
-                    <input type="button" id="btn_cancel" value="Cancelar">
+                    <input type="button" class="btn_create" value="Crear" onclick="nuevaMeta()">
+                    <input type="button" class="btn_cancel" value="Cancelar">
                 </div>
             </form>
         </main>
     </section>
-    <section id="work">
+    <section id="editHome" class="colorHome">
+        <main>
+            <div>
+                <h1 class="title">Editar Meta</h1>
+            </div>
+            <form action="">
+                <div>
+                    <label for="MEname">Nombre:</label><br>
+                    <input type="text" id="MEname" name="MEname" required>
+                </div>
+                <div>
+                    <label for="MEdescription">Descripción:</label><br>
+                    <input type="text" id="MEdescription" name="MEdescription" required>
+                </div>
+                <div class="Mform_date">
+                    <label for="MEdate_start">Fecha de inicio:</label>
+                    <label for="MEdate_end">Fecha de fin:</label>
+                    <input type="date" id="MEdate_start" name="MEdate_start" required>
+                    <input type="date" id="MEdate_end" name="MEdate_end" required>
+                </div>
+                <div class="form_btns">
+                    <input type="button" class="btn_create" value="Editar">
+                    <input type="button" class="btn_cancel" value="Cancelar">
+                </div>
+            </form>
+        </main>
+    </section>
+    <section id="work" class="colorWork">
         <main>
             <div>
                 <h1 class="title">Nombre meta</h1>
@@ -124,7 +150,7 @@
                     Possimus, odio laborum</p>
             </div>
             <div class="list">
-                <div class="item complete" onclick="workAlert()">
+                <div class="item incomplete" onclick="workAlert(this)">
                     <h1>Nombre tarea 1 </h1>
                     <img src="img/deleted.png" alt="" class="btn_deleted">
                     <img src="img/edit.png" alt="" class="btn_edit">
@@ -155,7 +181,7 @@
             </div>
         </main>
     </section>
-    <section id="addWork">
+    <section id="addWork" class="colorWork">
         <main>
             <div>
                 <h1 class="title">Nueva Tarea</h1>
@@ -170,12 +196,37 @@
                     <input type="text" id="Wdescription" name="Wdescription">
                 </div>
                 <div>
-                    <label for="WDate">¿Qué día lo haras?</label><br>
-                    <input type="date" id="WDate" name="Wdate">
+                    <label for="Wdate">¿Qué día lo harás?</label><br>
+                    <input type="date" id="Wdate" name="Wdate">
                 </div>
                 <div class="form_btns">
-                    <input type="submit" id="btn_create" value="Crear">
-                    <input type="submit" id="btn_cancel" value="Cancelar">
+                    <input type="button" class="btn_create" value="Crear">
+                    <input type="button" class="btn_cancel" value="Cancelar">
+                </div>
+            </form>
+        </main>
+    </section>
+    <section id="editWork" class="colorWork">
+        <main>
+            <div>
+                <h1 class="title">Editar Tarea</h1>
+            </div>
+            <form action="">
+                <div>
+                    <label for="WEname">Nombre:</label><br>
+                    <input type="text" id="WEname" name="WEname">
+                </div>
+                <div>
+                    <label for="WEdescription">Descripción:</label><br>
+                    <input type="text" id="WEdescription" name="WEdescription">
+                </div>
+                <div>
+                    <label for="WEdate">¿Qué día lo harás?</label><br>
+                    <input type="date" id="WEdate" name="WEdate">
+                </div>
+                <div class="form_btns">
+                    <input type="button" class="btn_create" value="Editar">
+                    <input type="button" class="btn_cancel" value="Cancelar">
                 </div>
             </form>
         </main>

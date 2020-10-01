@@ -15,12 +15,20 @@ function cambiarSeccion(id_seccion) {
 }
 
 /*style alert tarea*/
-function workAlert() {
+function workAlert(element) {
     var nombre = 'Nombre Tarea';
     Swal.fire({
         html: '<h1 class="alertTitle">' + nombre + '</h1><br><h3 class="alertFontword">Descripción:</h3><p class="alertFontword">Descripción lorem impsun te quiero bb uwu<P><br><h3 class="alertFontword">Día</h3><p class="alertFontword">dd/mm/dd</p>',
-        showConfirmButton: false,
-    })
+        showCloseButton: true,
+        confirmButtonText:
+        'Completada',
+        confirmButtonColor:'#0DCB8F'
+    }).then((isConfirm) => {
+        if(isConfirm.value){
+            element.classList.remove('incomplete');
+            element.classList.add('complete');
+        }
+      })
 }
 
 /* Creación de usuarios */
@@ -33,7 +41,7 @@ function signUp() {
             console.log("Se creó la cuente correctamente"); ///////////// ALERT ACÁ //////////////
             Swal.fire({
                 icon: 'success',
-                title: 'Creaste tu cuenta correctamente',
+                html:'<h1 class="alertFontword" >Creaste tu cuenta correctamente</h1>',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -44,7 +52,7 @@ function signUp() {
             console.log(errorCode, " ", errorMessage); ///////////// ALERT ACÁ //////////////
             Swal.fire({
                 icon: 'error',
-                title: errorMessage,
+                html:'<h1 class="alertFontword" >'+errorMessage+'</h1>',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -67,7 +75,7 @@ function signIn() {
             console.log(errorCode, " ", errorMessage); ///////////// ALERT ACÁ //////////////
             Swal.fire({
                 icon: 'error',
-                title: errorMessage,
+                html:'<h1 class="alertFontword" >'+errorMessage+'</h1>',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -80,11 +88,10 @@ function signOut() {
         console.log("Cerraste sesión correctamente"); ///////////// ALERT ACÁ //////////////
         Swal.fire({
             icon: 'success',
-            title: 'Cerraste sesión correctamente',
+            html:'<h1 class="alertFontword" >Cerraste sesión correctamente</h1>',
             showConfirmButton: false,
             timer: 2000
         })
-        
     }).catch(function (error) {
 
     });
@@ -128,8 +135,8 @@ function nuevaMeta() {
     var email = user.email;
     var nombre = document.getElementById("Mname").value;
     var descripcion = document.getElementById("Mdescription").value;
-    var fechaInicio = document.getElementById("MDate_start").value;
-    var fechaFin = document.getElementById("MDate_end").value;
+    var fechaInicio = document.getElementById("Mdate_start").value;
+    var fechaFin = document.getElementById("Mdate_end").value;
 
     var fechaInDate = new Date(fechaInicio+"T00:00:00");
     var fechaFiDate = new Date(fechaFin+"T00:00:00");
@@ -160,15 +167,15 @@ function nuevaMeta() {
 
                     Swal.fire({
                         icon: 'success',
-                        title: "Creaste tu meta correctamente",
+                        html:'<h2 class="alertFontword" >Creaste tu meta correctamente</h2>',
                         showConfirmButton: false,
                         timer: 2000
                     })
 
                     document.getElementById("Mname").value = '';
                     document.getElementById("Mdescription").value = '';
-                    document.getElementById("MDate_start").value = '';
-                    document.getElementById("MDate_end").value = '';
+                    document.getElementById("Mdate_start").value = '';
+                    document.getElementById("Mdate_end").value = '';
 
                     leerMetas();
                 })
@@ -178,7 +185,7 @@ function nuevaMeta() {
         } else {
             Swal.fire({
                 icon: 'error',
-                title: "Asegúrate de que las fechas estén bien",
+                html:'<h2 class="alertFontword" >Asegúrate de que las fechas estén bien</h2>',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -187,9 +194,9 @@ function nuevaMeta() {
         ///////////// ALERT ACÁ //////////////
         Swal.fire({
             icon: 'error',
-            title: "Debes llenar todos los campos para crear tu meta",
+            html:'<h2 class="alertFontword" >Debes llenar todos los campos para crear tu meta</h2>',
             showConfirmButton: false,
-            timer: 2000
+            timer: 2500
         })
     }
 }
@@ -201,7 +208,7 @@ function eliminarMeta(docId){
     db.collection("usuarios").doc(email).collection("metas").doc(docId).delete().then(function() {
         Swal.fire({
             icon: 'success',
-            title: 'Eliminaste la meta correctamente',
+            html:'<h2 class="alertFontword" >Eliminaste la meta correctamente</h2>',
             showConfirmButton: false,
             timer: 2000
         })

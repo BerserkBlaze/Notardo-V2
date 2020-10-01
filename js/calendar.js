@@ -53,7 +53,7 @@ const getTotalDays = month => {
         return isLeap() ? 29:28; // si verdadero 29 sino 28
     }
 }
-// Saber si el año es viciesto o no
+// Saber si el año es bisiesto o no
 const isLeap = () => {
     return ((currentYear % 100 !==0) && (currentYear % 4 === 0) || (currentYear % 400 === 0));
 }
