@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/sweetalert2.min.css">
     <script src="js/sweetalert2.all.min.js"></script>
-    <title>Document</title>
+    <title>Notardo</title>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
 
@@ -30,9 +30,9 @@
     <header class="oculto">
         <h1 class="title_proyect">NOTARDO</h1>
         <nav>
-            <div class="position"><a href="#home">Home</a></div>
+            <div class="position"><a href="#home">Inicio</a></div>
             <div><a href="#Calendario">Calendario</a></div>
-            <div><a href="#Estadistica">Estadisticas</a></div>
+            <div><a href="#Estadistica">Estadísticas</a></div>
             <div><a href="#CerrarSesión" onclick="signOut()">Cerrar Sesión</a></div>
         </nav>
     </header>
@@ -43,23 +43,25 @@
     <section class="withoutHeader signIn login" id="signIn">
         <div>
             <h1>INICIAR SESIÓN</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <p>¡Bienvenido a Notardo!</p>
             <input id="emailSignIn" type="email" placeholder="user@email.com">
             <input id="passwordSignIn" type="password" placeholder="password">
-            <button onclick="signIn()">Iniciar</button>
+            <button onclick="signIn(); leerMetas()">Iniciar</button>
             <div class="links">
-                <a href="#signIn" class="colorDif" onclick="cambiarSeccion(1)">Registrarse</a>
+                <p>¿No tienes cuenta aún?</p>
+                <a href="#signIn" class="colorDif" onclick="cambiarSeccion(1)">Regístrate</a>
             </div>
         </div>
     </section>
     <section class="withoutHeader signUp login" id="signUp">
         <div>
-            <h1>REGISTRARSE</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <h1>REGÍSTRATE</h1>
+            <p>Crea tu cuenta para empezar a usar Notardo</p>
             <input id="emailSignUp" type="email" placeholder="user@email.com">
             <input id="passwordSignUp" type="password" placeholder="password">
             <button onclick="signUp()">Registrarte</button>
             <div class="links">
+                <p>¿Ya tienes una cuenta?</p>
                 <a href="#signIn" class="colorDif" onclick="cambiarSeccion(0)">Iniciar sesión</a>
             </div>
         </div>
@@ -69,7 +71,7 @@
             <div>
                 <h1 class="title">METAS</h1>
             </div>
-            <div class="list">
+            <div id="metasList" class="list">
                 <div class="item complete">
                     <h1>Nombre Meta 1 </h1>
                     <img src="img/deleted.png" alt="" class="btn_deleted">
@@ -80,21 +82,7 @@
                     <img src="img/deleted.png" alt="" class="btn_deleted">
                     <img src="img/edit.png" alt="" class="btn_edit">
                 </div>
-                <div class="item incomplete">
-                    <h1>Nombre Meta 2</h1>
-                    <img src="img/deleted.png" alt="" class="btn_deleted">
-                    <img src="img/edit.png" alt="" class="btn_edit">
-                </div>
-                <div class="item incomplete">
-                    <h1>Nombre Meta 2</h1>
-                    <img src="img/deleted.png" alt="" class="btn_deleted">
-                    <img src="img/edit.png" alt="" class="btn_edit">
-                </div>
-                <div class="item incomplete">
-                    <h1>Nombre Meta 2</h1>
-                    <img src="img/deleted.png" alt="" class="btn_deleted">
-                    <img src="img/edit.png" alt="" class="btn_edit">
-                </div>
+                
             </div>
             <div class="footer">
                 <img src="img/add.png" alt="" class="btn_add">
