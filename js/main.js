@@ -15,12 +15,21 @@ function cambiarSeccion(id_seccion) {
 }
 
 /*style alert tarea*/
-function workAlert() {
+function workAlert(element) {
     var nombre = 'Nombre Tarea';
     Swal.fire({
         html: '<h1 class="alertTitle">' + nombre + '</h1><br><h3 class="alertFontword">Descripción:</h3><p class="alertFontword">Descripción lorem impsun te quiero bb uwu<P><br><h3 class="alertFontword">Día</h3><p class="alertFontword">dd/mm/dd</p>',
-        showConfirmButton: false,
-    })
+        showCloseButton: true,
+        confirmButtonText:
+        'Completada',
+        confirmButtonColor:'#0DCB8F'
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            //-----------ALGORITMO PARA ADICIONAR LA CLASE COMPLETE AL ELEMENTO QUE UTILICE ESTA FUNCIÓN----
+            Swal.fire('Saved!', '', 'success')
+        }
+      })
 }
 
 /* Creación de usuarios */
@@ -127,8 +136,8 @@ function nuevaMeta() {
     var email = user.email;
     var nombre = document.getElementById("Mname").value;
     var descripcion = document.getElementById("Mdescription").value;
-    var fechaInicio = document.getElementById("MDate_start").value;
-    var fechaFin = document.getElementById("MDate_end").value;
+    var fechaInicio = document.getElementById("Mdate_start").value;
+    var fechaFin = document.getElementById("Mdate_end").value;
 
     var fechaInDate = new Date(fechaInicio);
     var fechaFiDate = new Date(fechaFin);
@@ -166,8 +175,8 @@ function nuevaMeta() {
 
                     document.getElementById("Mname").value = '';
                     document.getElementById("Mdescription").value = '';
-                    document.getElementById("MDate_start").value = '';
-                    document.getElementById("MDate_end").value = '';
+                    document.getElementById("Mdate_start").value = '';
+                    document.getElementById("Mdate_end").value = '';
 
                     leerMetas();
                 })

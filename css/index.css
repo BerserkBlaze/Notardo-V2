@@ -128,7 +128,7 @@ body{
 .login .links{
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-end;
+    justify-content: center;
 }
 .login .links a{
     width: auto;
@@ -191,10 +191,7 @@ section{
 }
 
 /* Section home*/
-#home{
-    background: var(--color-orange-light);
-}
-#addHome{
+.colorHome{
     background: var(--color-orange-light);
 }
 /* configuración general main */
@@ -313,26 +310,26 @@ input[type="text"], input[type="date"]{
     display: flex;
     justify-content: space-around;
 }
-.form_btns input[type="submit"]{
+.form_btns input[type="button"]{
     width: 150px;
     transition: .5s;
 }
-.form_btns input[type="submit"]:hover{
+.form_btns input[type="button"]:hover{
     width: 150px;
     transform: scale(0.95);
 }
-.form_btns #btn_create{
+.form_btns .btn_create{
     background-color: var(--color-yellow);
     color: var(--color-black);
 }
-.form_btns #btn_cancel{
+.form_btns .btn_cancel{
     background-color: var(--color-orange-dark);
     color: var(--color-white);
 }
 
 /* Section tareas */
-#work{
-    background: var(--color-yellow);
+.colorWork{
+    background-color: var(--color-yellow);
 }
 #work .title{
     letter-spacing: 0px;
@@ -351,11 +348,6 @@ input[type="text"], input[type="date"]{
 }
 .alertFontword{
     font-family: var(--font-words);
-}
-
-/*section adicionar tareas*/
-#addWork{
-    background-color: var(--color-yellow);
 }
 
 /*section CALENDARIO*/
@@ -413,19 +405,17 @@ input[type="text"], input[type="date"]{
     text-align: center;
     line-height: 2;
 }
+.calendar__today, .calendar__day:hover{
+    color: white;
+    width: 32px;
+    border-radius: 50%;
+    justify-self: center;
+}
 .calendar__today {
     background: var(--color-orange-light);
-    color: white;
-    width: 25%;
-    border-radius: 50%;
-    margin: auto;
 }
 .calendar__day:hover{
     background: var(--color-gray);
-    color: white;
-    width: 30%;
-    border-radius: 20px;
-    justify-self: center;
 }
 .calendar__last-days {
     opacity: .3;
