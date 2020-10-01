@@ -33,10 +33,10 @@ function signUp() {
             console.log("Se creó la cuente correctamente"); ///////////// ALERT ACÁ //////////////
             Swal.fire({
                 icon: 'success',
-                title: 'Se creó la cuenta correctamente',
+                title: 'Creaste tu cuenta correctamente',
                 showConfirmButton: false,
-                timer: 1500
-              })
+                timer: 2000
+            })
         })
         .catch(function (error) {
             var errorCode = error.code;
@@ -44,10 +44,10 @@ function signUp() {
             console.log(errorCode, " ", errorMessage); ///////////// ALERT ACÁ //////////////
             Swal.fire({
                 icon: 'error',
-                title: errorCode+' '+errorMessage,
+                title: errorMessage,
                 showConfirmButton: false,
-                timer: 1500
-              })
+                timer: 2000
+            })
         });
 
 }
@@ -67,23 +67,23 @@ function signIn() {
             console.log(errorCode, " ", errorMessage); ///////////// ALERT ACÁ //////////////
             Swal.fire({
                 icon: 'error',
-                title: errorCode+' '+errorMessage,
+                title: errorMessage,
                 showConfirmButton: false,
-                timer: 1500
-              })
+                timer: 2000
+            })
         });
 }
 
 /* Cerrar sesión */
 function signOut() {
     firebase.auth().signOut().then(function () {
-        console.log("Cerró sesión correctamente"); ///////////// ALERT ACÁ //////////////
+        console.log("Cerraste sesión correctamente"); ///////////// ALERT ACÁ //////////////
         Swal.fire({
             icon: 'success',
-            title: 'Cerró sesión correctamente',
+            title: 'Cerraste sesión correctamente',
             showConfirmButton: false,
-            timer: 1500
-          })
+            timer: 2000
+        })
     }).catch(function (error) {
 
     });
@@ -91,22 +91,35 @@ function signOut() {
 
 /* Permite observar si un usuario está activo */
 
-function isLoged() {
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
 
-            console.log("Usuario Activo"); //////////// PENDIENTE ///////////
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        leerMetas();
+        console.log("Usuario Activo"); //////////// PENDIENTE ///////////
 
-        } else {
+    } else {
 
-            console.log("Usuario Inactivo");
-        }
+        console.log("Usuario Inactivo");
+    }
+});
+
+/* Inicializa la base de datos y otros datos*/
+var db = firebase.firestore();
+
+/* Lee las metas desde la base de datos */
+function leerMetas() {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    var lista = document.getElementById('metasList');
+    db.collection("usuarios").doc(email).collection("metas").get().then(function (querySnapshot) {
+        lista.innerHTML = '';
+        querySnapshot.forEach(function (doc) {
+            lista.innerHTML += '<div class="item incomplete"><h1>'+doc.data().nombre+'</h1><img src="img/deleted.png" alt="" class="btn_deleted"><img src="img/edit.png" alt="" class="btn_edit"></div>';
+        });
     });
 }
-isLoged();
 
-/* Inicializa la base de datos */
-var db = firebase.firestore();
+
 
 /* Crea una meta */
 function nuevaMeta() {
@@ -126,34 +139,59 @@ function nuevaMeta() {
     let year = date.getFullYear()
     var fechaAux;
     if (month < 10) {
-        fechaAux = year +"-0"+ month +"-"+ day;
+        fechaAux = year + "-0" + month + "-" + day;
     } else {
-        fechaAux = year +"-"+ month +"-"+ day;
+        fechaAux = year + "-" + month + "-" + day;
     }
-    console.log(fechaAux, " ", fechaInicio);
-    var fechaHoy = new Date(fechaAux);
-    console.log(fechaFiDate, " ", fechaInDate, " ", fechaHoy);
 
-    if (nombre != "" && descripcion != "" && fechaInicio != "" && fechaFin != "" && fechaInDate <= fechaFiDate && fechaInDate >= fechaHoy) {
-        db.collection("usuarios").doc(email).collection("metas").add({
-            nombre: nombre,
-            descripcion: descripcion,
-            fechaInicio: fechaInicio,
-            fechaFin: fechaFin
-        })
-            .then(function (docRef) {
-                console.log("Document written with ID: ", docRef.id);
+    var fechaHoy = new Date(fechaAux);
+
+    if (nombre != "" && descripcion != "" && fechaInicio != "" && fechaFin != "") {
+        if (fechaInDate <= fechaFiDate && fechaInDate >= fechaHoy) {
+            db.collection("usuarios").doc(email).collection("metas").add({
+                nombre: nombre,
+                descripcion: descripcion,
+                fechaInicio: fechaInicio,
+                fechaFin: fechaFin
             })
-            .catch(function (error) {
-                console.error("Error adding document: ", error);
-            });
+                .then(function (docRef) {
+                    ///////////// ALERT ACÁ //////////////
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: "Creaste tu meta correctamente",
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+
+                    document.getElementById("Mname").value = '';
+                    document.getElementById("Mdescription").value = '';
+                    document.getElementById("MDate_start").value = '';
+                    document.getElementById("MDate_end").value = '';
+
+                    leerMetas();
+                })
+                .catch(function (error) {
+                    console.error("Error adding document: ", error);
+                });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: "Asegúrate de que las fechas estén bien",
+                showConfirmButton: false,
+                timer: 2000
+            })
+        }
     } else {
-        console.log("No se pudo crear la meta"); ///////////// ALERT ACÁ //////////////
+        ///////////// ALERT ACÁ //////////////
         Swal.fire({
             icon: 'error',
-            title: "No se pudo crear la meta",
+            title: "Debes llenar todos los campos para crear tu meta",
             showConfirmButton: false,
-            timer: 1500
-          })
+            timer: 2000
+        })
     }
 }
+
+
+
