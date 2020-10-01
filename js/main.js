@@ -103,7 +103,7 @@ firebase.auth().onAuthStateChanged(function (user) {
     }
 });
 
-/* Inicializa la base de datos y otros datos*/
+/* Inicializa la base de datos*/
 var db = firebase.firestore();
 
 /* Lee las metas desde la base de datos */
@@ -114,7 +114,7 @@ function leerMetas() {
     db.collection("usuarios").doc(email).collection("metas").get().then(function (querySnapshot) {
         lista.innerHTML = '';
         querySnapshot.forEach(function (doc) {
-            lista.innerHTML += '<div class="item incomplete"><h1>'+doc.data().nombre+'</h1><img src="img/deleted.png" alt="" class="btn_deleted"><img src="img/edit.png" alt="" class="btn_edit"></div>';
+            lista.innerHTML += '<div class="item incomplete"><h1>'+doc.data().nombre+'</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick= eliminarMeta("'+doc.id+'")><img src="img/edit.png" alt="" class="btn_edit"></div>';
         });
     });
 }
@@ -133,6 +133,7 @@ function nuevaMeta() {
     var fechaInDate = new Date(fechaInicio);
     var fechaFiDate = new Date(fechaFin);
 
+    //Se obtiene la fecha de hoy y se convierte para que sólo quede la fecha sin hora
     let date = new Date();
     let day = date.getDate()
     let month = date.getMonth() + 1
@@ -143,7 +144,6 @@ function nuevaMeta() {
     } else {
         fechaAux = year + "-" + month + "-" + day;
     }
-
     var fechaHoy = new Date(fechaAux);
 
     if (nombre != "" && descripcion != "" && fechaInicio != "" && fechaFin != "") {
@@ -191,6 +191,23 @@ function nuevaMeta() {
             timer: 2000
         })
     }
+}
+
+/*Eliminar metas */
+function eliminarMeta(docId){
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    db.collection("usuarios").doc(email).collection("metas").doc(docId).delete().then(function() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Eliminaste la meta correctamente',
+            showConfirmButton: false,
+            timer: 2000
+        })
+        leerMetas();
+    }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
 }
 
 
