@@ -84,6 +84,7 @@ function signOut() {
             showConfirmButton: false,
             timer: 2000
         })
+        
     }).catch(function (error) {
 
     });
@@ -130,8 +131,8 @@ function nuevaMeta() {
     var fechaInicio = document.getElementById("MDate_start").value;
     var fechaFin = document.getElementById("MDate_end").value;
 
-    var fechaInDate = new Date(fechaInicio);
-    var fechaFiDate = new Date(fechaFin);
+    var fechaInDate = new Date(fechaInicio+"T00:00:00");
+    var fechaFiDate = new Date(fechaFin+"T00:00:00");
 
     //Se obtiene la fecha de hoy y se convierte para que sólo quede la fecha sin hora
     let date = new Date();
