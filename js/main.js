@@ -23,11 +23,10 @@ function workAlert(element) {
         confirmButtonText:
         'Completada',
         confirmButtonColor:'#0DCB8F'
-    }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-            //-----------ALGORITMO PARA ADICIONAR LA CLASE COMPLETE AL ELEMENTO QUE UTILICE ESTA FUNCIÓN----
-            Swal.fire('Saved!', '', 'success')
+    }).then((isConfirm) => {
+        if(isConfirm.value){
+            element.classList.remove('incomplete');
+            element.classList.add('complete');
         }
       })
 }
@@ -42,7 +41,7 @@ function signUp() {
             console.log("Se creó la cuente correctamente"); ///////////// ALERT ACÁ //////////////
             Swal.fire({
                 icon: 'success',
-                title: 'Creaste tu cuenta correctamente',
+                html:'<h1 class="alertFontword" >Creaste tu cuenta correctamente</h1>',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -53,7 +52,7 @@ function signUp() {
             console.log(errorCode, " ", errorMessage); ///////////// ALERT ACÁ //////////////
             Swal.fire({
                 icon: 'error',
-                title: errorMessage,
+                html:'<h1 class="alertFontword" >'+errorMessage+'</h1>',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -76,7 +75,7 @@ function signIn() {
             console.log(errorCode, " ", errorMessage); ///////////// ALERT ACÁ //////////////
             Swal.fire({
                 icon: 'error',
-                title: errorMessage,
+                html:'<h1 class="alertFontword" >'+errorMessage+'</h1>',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -89,11 +88,10 @@ function signOut() {
         console.log("Cerraste sesión correctamente"); ///////////// ALERT ACÁ //////////////
         Swal.fire({
             icon: 'success',
-            title: 'Cerraste sesión correctamente',
+            html:'<h1 class="alertFontword" >Cerraste sesión correctamente</h1>',
             showConfirmButton: false,
             timer: 2000
         })
-        
     }).catch(function (error) {
 
     });
@@ -169,7 +167,7 @@ function nuevaMeta() {
 
                     Swal.fire({
                         icon: 'success',
-                        title: "Creaste tu meta correctamente",
+                        html:'<h2 class="alertFontword" >Creaste tu meta correctamente</h2>',
                         showConfirmButton: false,
                         timer: 2000
                     })
@@ -187,7 +185,7 @@ function nuevaMeta() {
         } else {
             Swal.fire({
                 icon: 'error',
-                title: "Asegúrate de que las fechas estén bien",
+                html:'<h2 class="alertFontword" >Asegúrate de que las fechas estén bien</h2>',
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -196,9 +194,9 @@ function nuevaMeta() {
         ///////////// ALERT ACÁ //////////////
         Swal.fire({
             icon: 'error',
-            title: "Debes llenar todos los campos para crear tu meta",
+            html:'<h2 class="alertFontword" >Debes llenar todos los campos para crear tu meta</h2>',
             showConfirmButton: false,
-            timer: 2000
+            timer: 2500
         })
     }
 }
@@ -210,7 +208,7 @@ function eliminarMeta(docId){
     db.collection("usuarios").doc(email).collection("metas").doc(docId).delete().then(function() {
         Swal.fire({
             icon: 'success',
-            title: 'Eliminaste la meta correctamente',
+            html:'<h2 class="alertFontword" >Eliminaste la meta correctamente</h2>',
             showConfirmButton: false,
             timer: 2000
         })
