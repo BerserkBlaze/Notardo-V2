@@ -105,6 +105,11 @@ function signOut() {
             showConfirmButton: false,
             timer: 2000
         })
+        document.getElementById('emailSignIn').value = '';
+        document.getElementById('passwordSignIn').value = '';
+        document.getElementById('metasList').innerHTML = '';
+
+
     }).catch(function (error) {
 
     });
