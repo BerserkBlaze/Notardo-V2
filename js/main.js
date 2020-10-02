@@ -3,7 +3,7 @@ var tiempo_splash = 2500;
 
 window.onload = function () {
     this.inicializarVistas();
-    setTimeout(cambiarSplash, tiempo_splash);
+    //setTimeout(cambiarSplash, tiempo_splash);
 }
 function inicializarVistas() {
     secciones[0] = document.getElementById("signIn");
