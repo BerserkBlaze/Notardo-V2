@@ -20,15 +20,20 @@ function workAlert(element) {
     Swal.fire({
         html: '<h1 class="alertTitle">' + nombre + '</h1><br><h3 class="alertFontword">Descripción:</h3><p class="alertFontword">Descripción lorem impsun te quiero bb uwu<P><br><h3 class="alertFontword">Día</h3><p class="alertFontword">dd/mm/dd</p>',
         showCloseButton: true,
-        confirmButtonText:
-            'Completada',
-        confirmButtonColor: '#0DCB8F'
-    }).then((isConfirm) => {
-        if (isConfirm.value) {
+        showCancelButton: true,
+        confirmButtonText: 'Completada',
+        cancelButtonText: 'Todavia no',
+        confirmButtonColor:'#0DCB8F'
+    }).then((result) => {
+        if(result.value){
             element.classList.remove('incomplete');
             element.classList.add('complete');
         }
-    })
+        else if(result.dismiss == 'cancel'){
+            element.classList.remove('complete');
+            element.classList.add('incomplete');
+        }
+      })
 }
 
 /* Creación de usuarios */
