@@ -1,11 +1,19 @@
 var secciones = [];
+var tiempo_splash = 2500;
 
 window.onload = function () {
     this.inicializarVistas();
+    setTimeout(cambiarSplash, tiempo_splash);
 }
 function inicializarVistas() {
     secciones[0] = document.getElementById("signIn");
     secciones[1] = document.getElementById("signUp");
+    secciones[3] = document.getElementById("splash");
+}
+function cambiarSplash() {
+    secciones[3].classList.add("oculto");
+    secciones[3].classList.remove("splash");
+    secciones[0].className = "signIn";
 }
 function cambiarSeccion(id_seccion) {
     for (var i in secciones) {
