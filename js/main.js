@@ -31,17 +31,17 @@ function workAlert(element) {
         showCancelButton: true,
         confirmButtonText: 'Completada',
         cancelButtonText: 'Todavia no',
-        confirmButtonColor:'#0DCB8F'
+        confirmButtonColor: '#0DCB8F'
     }).then((result) => {
-        if(result.value){
+        if (result.value) {
             element.classList.remove('incomplete');
             element.classList.add('complete');
         }
-        else if(result.dismiss == 'cancel'){
+        else if (result.dismiss == 'cancel') {
             element.classList.remove('complete');
             element.classList.add('incomplete');
         }
-      })
+    })
 }
 
 /* Creación de usuarios */
@@ -142,7 +142,7 @@ function leerMetas() {
         lista.innerHTML = '';
         querySnapshot.forEach(function (doc) {
             var nombreMeta = doc.data().nombre;
-            lista.innerHTML += '<div class="item incomplete"><h1>' + nombreMeta + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick= eliminarMeta("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarMeta("' + doc.id + '")></div>';
+            lista.innerHTML += '<div class="item incomplete" onclick=obtenerMeta("' + doc.id + '")><h1>' + nombreMeta + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick= eliminarMeta("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarMeta("' + doc.id + '")></div>';
         });
     });
 }
@@ -314,3 +314,74 @@ function editarMeta(docId) {
 }
 
 ////////// Código de TAREAS //////////
+/* Permite saber cuál es la meta actual */
+var metaActual;
+var fechaFinMeta;
+function obtenerMeta(id) {
+    metaActual = id;
+    console.log(metaActual);
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    var docRef = db.collection("usuarios").doc(email).collection("metas").doc(metaActual);
+    docRef.get().then(function (doc) {
+        if (doc.exists) {
+            fechaFinMeta = doc.data().fechaFin;
+        } 
+    });
+}
+
+
+/* Crear tarea */
+function nuevaTarea() {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    var nombre = document.getElementById("Wname").value;
+    var descripcion = document.getElementById("Wdescription").value;
+    var fechaInicio = document.getElementById("Wdate").value;
+
+    var fechaInDate = new Date(fechaInicio + "T00:00:00");
+    var fechaFiDate = new Date(fechaFinMeta+"T00:00:00");
+    console.log(fechaFiDate);
+    var fechaHoy = obtenerDia();
+
+    if (nombre != "" && descripcion != "" && fechaInicio != "") {
+        if (fechaInDate >= fechaHoy && fechaInDate <= fechaFiDate) {
+            db.collection("usuarios").doc(email).collection("metas").doc(metaActual).collection("tareas").add({
+                nombre: nombre,
+                descripcion: descripcion,
+                fechaInicio: fechaInicio,
+            })
+                .then(function (docRef) {
+                    ///////////// ALERT ACÁ //////////////
+
+                    Swal.fire({
+                        icon: 'success',
+                        html: '<h2 class="alertFontword" >Creaste tu tarea correctamente</h2>',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+
+                    document.getElementById("Wname").value = '';
+                    document.getElementById("Wdescription").value = '';
+                    document.getElementById("Wdate").value = '';
+
+                })
+
+        } else {
+            Swal.fire({
+                icon: 'error',
+                html: '<h2 class="alertFontword" >Asegúrate de que las fechas estén bien</h2>',
+                showConfirmButton: false,
+                timer: 2000
+            })
+        }
+    } else {
+        ///////////// ALERT ACÁ //////////////
+        Swal.fire({
+            icon: 'error',
+            html: '<h2 class="alertFontword" >Debes llenar todos los campos para crear tu meta</h2>',
+            showConfirmButton: false,
+            timer: 2500
+        })
+    }
+}
