@@ -341,6 +341,17 @@ input[type="text"], input[type="date"]{
     font-size: 20px;
     font-family: var(--font-words);
 }
+.work_date_header{
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: auto;
+}
+.work_date_item{
+    font-family: sensei;
+    color: var(--color-gray);
+    font-size: 1em;
+}
 
 /*Alert title*/
 .alertTitle{

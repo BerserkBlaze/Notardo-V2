@@ -58,6 +58,8 @@ function signUp() {
                 showConfirmButton: false,
                 timer: 2000
             })
+            document.getElementById('emailSignUp').value = '';
+            document.getElementById('passwordSignUp').value = '';
         })
         .catch(function (error) {
             var errorCode = error.code;
@@ -108,8 +110,6 @@ function signOut() {
         document.getElementById('emailSignIn').value = '';
         document.getElementById('passwordSignIn').value = '';
         document.getElementById('metasList').innerHTML = '';
-
-
     }).catch(function (error) {
 
     });
