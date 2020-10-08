@@ -341,7 +341,6 @@ function nuevaTarea() {
 
     var fechaInDate = new Date(fechaInicio + "T00:00:00");
     var fechaFiDate = new Date(fechaFinMeta+"T00:00:00");
-    console.log(fechaFiDate);
     var fechaHoy = obtenerDia();
 
     if (nombre != "" && descripcion != "" && fechaInicio != "") {
