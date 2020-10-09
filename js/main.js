@@ -316,6 +316,9 @@ function editarMeta(docId) {
 ////////// Código de TAREAS //////////
 /* Permite saber cuál es la meta actual */
 var metaActual;
+var nombreMeta;
+var descpMeta;
+var fechaInMeta;
 var fechaFinMeta;
 function obtenerMeta(id) {
     metaActual = id;
@@ -325,8 +328,18 @@ function obtenerMeta(id) {
     var docRef = db.collection("usuarios").doc(email).collection("metas").doc(metaActual);
     docRef.get().then(function (doc) {
         if (doc.exists) {
+            nombreMeta = doc.data().nombre;
+            descpMeta = doc.data().descripcion;
+            fechaInMeta = doc.data().fechaInicio;
             fechaFinMeta = doc.data().fechaFin;
-        } 
+
+            document.getElementById("workNMeta").innerHTML = nombreMeta;
+            document.getElementById("workDMeta").innerHTML = descpMeta;
+            document.getElementById("date_start").innerHTML = fechaInMeta;
+            document.getElementById("date_finish").innerHTML = fechaFinMeta;
+            leerTareas();
+
+        }
     });
 }
 
@@ -340,7 +353,7 @@ function nuevaTarea() {
     var fechaInicio = document.getElementById("Wdate").value;
 
     var fechaInDate = new Date(fechaInicio + "T00:00:00");
-    var fechaFiDate = new Date(fechaFinMeta+"T00:00:00");
+    var fechaFiDate = new Date(fechaFinMeta + "T00:00:00");
     var fechaHoy = obtenerDia();
 
     if (nombre != "" && descripcion != "" && fechaInicio != "") {
@@ -383,4 +396,18 @@ function nuevaTarea() {
             timer: 2500
         })
     }
+}
+
+/* Leer tareas */
+function leerTareas() {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    var lista = document.getElementById('tareasList');
+    db.collection("usuarios").doc(email).collection("metas").doc(metaActual).collection("tareas").get().then(function (querySnapshot) {
+        lista.innerHTML = '';
+        querySnapshot.forEach(function (doc) {
+            var nombreTarea = doc.data().nombre;
+            lista.innerHTML += '<div class="item incomplete" onclick="workAlert(this)"><h1>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted"><img src="img/edit.png" alt="" class="btn_edit"></div>'
+        });
+    });
 }
