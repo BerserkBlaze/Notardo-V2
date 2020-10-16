@@ -431,3 +431,13 @@ input[type="text"], input[type="date"]{
 .calendar__last-days {
     opacity: .3;
 }
+
+/* graficas */
+#statistics{
+    background-color: var(--color-black);
+}
+#graphics{
+    width: 80% !important;
+    height: 80% !important;
+    margin: auto;
+}

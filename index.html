@@ -22,6 +22,7 @@
     <script src="js/init-firebase.js"></script>
 
     <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
 
 
 </head>
@@ -145,8 +146,8 @@
     <section id="work" class="colorWork">
         <main>
             <div class="work_date_header">
-                <p id="date_start" class="work_date_item">dd/mm/yyyy</p>
-                <p id="date_finish" class="work_date_item">dd/mm/yyyy</p>
+                <p class="date_start work_date_item">dd/mm/yyyy</p>
+                <p class="date_finish work_date_item">dd/mm/yyyy</p>
             </div>
             <div>
                 <h1 id="workNMeta" class="title">Nombre meta</h1>
@@ -188,8 +189,8 @@
     <section id="addWork" class="colorWork">
         <main>
             <div class="work_date_header">
-                <p id="date_start" class="work_date_item">dd/mm/yyyy</p>
-                <p id="date_finish" class="work_date_item">dd/mm/yyyy</p>
+                <p class="date_start work_date_item">dd/mm/yyyy</p>
+                <p class="date_finish work_date_item">dd/mm/yyyy</p>
             </div>
             <div>
                 <h1 class="title">Nueva Tarea</h1>
@@ -217,8 +218,8 @@
     <section id="editWork" class="colorWork">
         <main>
             <div class="work_date_header">
-                <p id="date_start" class="work_date_item">dd/mm/yyyy</p>
-                <p id="date_finish" class="work_date_item">dd/mm/yyyy</p>
+                <p class="date_start work_date_item">dd/mm/yyyy</p>
+                <p class="date_finish work_date_item">dd/mm/yyyy</p>
             </div>
             <div>
                 <h1 class="title">Editar Tarea</h1>
@@ -265,7 +266,20 @@
             <div class="calendar__dates" id="dates"></div>
         </div>
     </section>
+    <section id="statistics">
+        <div class="calendar">
+            <div class="calendar__info">
+                <div class="calendar__prev" id="prev-month-statistics">&#9664;</div>
+                <div class="calendar__month" id="month-statistics">Enero</div>
+                <div class="calendar__year" id="year-statistics"></div>
+                <div class="calendar__next" id="next-month-statistics">&#9654;</div>
+            </div>
+            <canvas id="graphics">
+            </canvas>
+        </div>
+    </section>
     <script src="js/calendar.js"></script>
+    <script src="js/statistics.js"></script>
 </body>
 
 </html>
