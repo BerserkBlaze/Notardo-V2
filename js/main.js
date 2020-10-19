@@ -335,8 +335,14 @@ function obtenerMeta(id) {
 
             document.getElementById("workNMeta").innerHTML = nombreMeta;
             document.getElementById("workDMeta").innerHTML = descpMeta;
-            document.getElementById("date_start").innerHTML = fechaInMeta;
-            document.getElementById("date_finish").innerHTML = fechaFinMeta;
+            elementFechaInicio = document.getElementsByClassName("date_start");
+            for (var i in elementFechaInicio){
+                elementFechaInicio[i].innerHTML = fechaInMeta;
+            }
+            elementFechaFin = document.getElementsByClassName("date_finish");
+            for (var j in elementFechaFin){
+                elementFechaFin[j].innerHTML = fechaFinMeta;
+            }
             leerTareas();
 
         }
@@ -376,6 +382,7 @@ function nuevaTarea() {
                     document.getElementById("Wname").value = '';
                     document.getElementById("Wdescription").value = '';
                     document.getElementById("Wdate").value = '';
+                    leerTareas();
 
                 })
 
@@ -407,7 +414,24 @@ function leerTareas() {
         lista.innerHTML = '';
         querySnapshot.forEach(function (doc) {
             var nombreTarea = doc.data().nombre;
-            lista.innerHTML += '<div class="item incomplete" onclick="workAlert(this)"><h1>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted"><img src="img/edit.png" alt="" class="btn_edit"></div>'
+            lista.innerHTML += '<div class="item incomplete" onclick="workAlert(this)"><h1>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick=eliminarTarea("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit"></div>'
         });
+    });
+}
+
+/*Eliminar tareas */
+function eliminarTarea(docId) {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    db.collection("usuarios").doc(email).collection("metas").doc(metaActual).collection("tareas").doc(docId).delete().then(function () {
+        Swal.fire({
+            icon: 'success',
+            html: '<h2 class="alertFontword" >Eliminaste la tarea correctamente</h2>',
+            showConfirmButton: false,
+            timer: 2000
+        })
+        leerTareas();
+    }).catch(function (error) {
+        console.error("Error removing document: ", error);
     });
 }
