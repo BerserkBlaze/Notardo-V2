@@ -508,13 +508,15 @@ function workAlert(docId, element) {
                 cancelButtonText: 'Todavía no',
                 confirmButtonColor: '#0DCB8F'
             }).then((result) => {
+                let parent = element.parentNode;
                 if (result.value) {
-                    element.classList.remove('incomplete');
-                    element.classList.add('complete');
+                    parent.classList.remove('incomplete');
+                    parent.classList.add('complete');
+                    completeLength();
                 }
                 else if (result.dismiss == 'cancel') {
-                    element.classList.remove('complete');
-                    element.classList.add('incomplete');
+                    parent.classList.remove('complete');
+                    parent.classList.add('incomplete');
                 }
             })
 
@@ -526,5 +528,18 @@ function workAlert(docId, element) {
     }).catch(function (error) {
         console.log("Error getting document:", error);
     });
-    
+}
+
+/*Contar completados*/
+// se pone idmeta como parametro
+function completeLength(){
+    const workList = document.getElementById('tareasList');
+    let list = workList.getElementsByClassName('item').length;
+    console.log(list);
+    let complete = workList.getElementsByClassName('complete').length;
+    console.log(complete);
+    if(list == complete){
+        console.log("meta completada");
+        //cambiar clase incomplete por complete a la meta
+    }
 }
