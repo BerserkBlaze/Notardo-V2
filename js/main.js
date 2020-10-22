@@ -22,28 +22,6 @@ function cambiarSeccion(id_seccion) {
     secciones[id_seccion].classList.remove("oculto");
 }
 
-/*style alert tarea*/
-function workAlert(element) {
-    var nombre = 'Nombre Tarea';
-    Swal.fire({
-        html: '<h1 class="alertTitle">' + nombre + '</h1><br><h3 class="alertFontword">Descripción:</h3><p class="alertFontword">Descripción lorem impsun te quiero bb uwu<P><br><h3 class="alertFontword">Día</h3><p class="alertFontword">dd/mm/dd</p>',
-        showCloseButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Completada',
-        cancelButtonText: 'Todavia no',
-        confirmButtonColor: '#0DCB8F'
-    }).then((result) => {
-        if (result.value) {
-            element.classList.remove('incomplete');
-            element.classList.add('complete');
-        }
-        else if (result.dismiss == 'cancel') {
-            element.classList.remove('complete');
-            element.classList.add('incomplete');
-        }
-    })
-}
-
 /* Creación de usuarios */
 function signUp() {
     var email = document.getElementById("emailSignUp").value;
@@ -82,7 +60,8 @@ function signIn() {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then(function () {
-            console.log("Se autenticó correctamente");
+            document.getElementById("emailSignIn").value = '';
+            document.getElementById("passwordSignIn").value = '';
         })
         .catch(function (error) {
             var errorCode = error.code;
@@ -182,7 +161,8 @@ function nuevaMeta() {
                 nombre: nombre,
                 descripcion: descripcion,
                 fechaInicio: fechaInicio,
-                fechaFin: fechaFin
+                fechaFin: fechaFin,
+                estado: 0
             })
                 .then(function (docRef) {
                     ///////////// ALERT ACÁ //////////////
@@ -336,11 +316,11 @@ function obtenerMeta(id) {
             document.getElementById("workNMeta").innerHTML = nombreMeta;
             document.getElementById("workDMeta").innerHTML = descpMeta;
             elementFechaInicio = document.getElementsByClassName("date_start");
-            for (var i in elementFechaInicio){
+            for (var i in elementFechaInicio) {
                 elementFechaInicio[i].innerHTML = fechaInMeta;
             }
             elementFechaFin = document.getElementsByClassName("date_finish");
-            for (var j in elementFechaFin){
+            for (var j in elementFechaFin) {
                 elementFechaFin[j].innerHTML = fechaFinMeta;
             }
             leerTareas();
@@ -368,6 +348,7 @@ function nuevaTarea() {
                 nombre: nombre,
                 descripcion: descripcion,
                 fechaInicio: fechaInicio,
+                estado: 0
             })
                 .then(function (docRef) {
                     ///////////// ALERT ACÁ //////////////
@@ -414,7 +395,7 @@ function leerTareas() {
         lista.innerHTML = '';
         querySnapshot.forEach(function (doc) {
             var nombreTarea = doc.data().nombre;
-            lista.innerHTML += '<div class="item incomplete" onclick="workAlert(this)"><h1>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick=eliminarTarea("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarTarea("' + doc.id + '")></div>'
+            lista.innerHTML += '<div class="item incomplete"><h1 onclick=workAlert("' + doc.id + '",this)>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick=eliminarTarea("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarTarea("' + doc.id + '")></div>'
         });
     });
 }
@@ -503,4 +484,47 @@ function editarTarea(docId) {
             })
         }
     }
+}
+
+/*style alert tarea*/
+function workAlert(docId, element) {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    var docRef = db.collection("usuarios").doc(email).collection("metas").doc(metaActual).collection("tareas").doc(docId);
+
+    var nombre;
+    var descripcion;
+    var dia;
+    docRef.get().then(function (doc) {
+        if (doc.exists) {
+            nombre = doc.data().nombre;
+            descripcion = doc.data().descripcion;
+            dia = doc.data().fechaInicio;
+            Swal.fire({
+                html: '<h1 class="alertTitle">' + nombre + '</h1><br><h3 class="alertFontword">Descripción:</h3><p class="alertFontword">' + descripcion + '<P><br><h3 class="alertFontword">Día</h3><p class="alertFontword">' + dia + '</p>',
+                showCloseButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Completada',
+                cancelButtonText: 'Todavía no',
+                confirmButtonColor: '#0DCB8F'
+            }).then((result) => {
+                if (result.value) {
+                    element.classList.remove('incomplete');
+                    element.classList.add('complete');
+                }
+                else if (result.dismiss == 'cancel') {
+                    element.classList.remove('complete');
+                    element.classList.add('incomplete');
+                }
+            })
+
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+
+    }).catch(function (error) {
+        console.log("Error getting document:", error);
+    });
+    
 }
