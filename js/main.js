@@ -121,7 +121,14 @@ function leerMetas() {
         lista.innerHTML = '';
         querySnapshot.forEach(function (doc) {
             var nombreMeta = doc.data().nombre;
-            lista.innerHTML += '<div class="item complete" onclick=obtenerMeta("' + doc.id + '")><h1>' + nombreMeta + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick= eliminarMeta("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarMeta("' + doc.id + '")></div>';
+            let estado = doc.data().estado;
+            let clase;
+            if (estado == 0) {
+                clase = "incomplete";
+            } else {
+                clase = "complete";
+            }
+            lista.innerHTML += '<div class="item ' + clase + '" onclick=obtenerMeta("' + doc.id + '")><h1>' + nombreMeta + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick= eliminarMeta("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarMeta("' + doc.id + '")></div>';
         });
     });
 }
@@ -302,7 +309,6 @@ var fechaInMeta;
 var fechaFinMeta;
 function obtenerMeta(id) {
     metaActual = id;
-    console.log(metaActual);
     var user = firebase.auth().currentUser;
     var email = user.email;
     var docRef = db.collection("usuarios").doc(email).collection("metas").doc(metaActual);
@@ -363,7 +369,8 @@ function nuevaTarea() {
                     document.getElementById("Wname").value = '';
                     document.getElementById("Wdescription").value = '';
                     document.getElementById("Wdate").value = '';
-                    leerTareas();
+                    completeLength();
+
 
                 })
 
@@ -395,7 +402,15 @@ function leerTareas() {
         lista.innerHTML = '';
         querySnapshot.forEach(function (doc) {
             var nombreTarea = doc.data().nombre;
-            lista.innerHTML += '<div class="item incomplete"><h1 onclick=workAlert("' + doc.id + '",this)>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick=eliminarTarea("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarTarea("' + doc.id + '")></div>'
+            let estado = doc.data().estado;
+            let clase;
+            if (estado == 0) {
+                clase = "incomplete";
+            } else {
+                clase = "complete";
+            }
+
+            lista.innerHTML += '<div class="item ' + clase + '"><h1 onclick=workAlert("' + doc.id + '",this)>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick=eliminarTarea("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarTarea("' + doc.id + '")></div>'
         });
     });
 }
@@ -512,11 +527,20 @@ function workAlert(docId, element) {
                 if (result.value) {
                     parent.classList.remove('incomplete');
                     parent.classList.add('complete');
+                    docRef.update({
+                        estado: 1
+                    });
                     completeLength();
+
                 }
                 else if (result.dismiss == 'cancel') {
                     parent.classList.remove('complete');
                     parent.classList.add('incomplete');
+                    docRef.update({
+                        estado: 0
+                    });
+                    completeLength();
+
                 }
             })
 
@@ -532,14 +556,26 @@ function workAlert(docId, element) {
 
 /*Contar completados*/
 // se pone idmeta como parametro
-function completeLength(){
+function completeLength() {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    var docRef = db.collection("usuarios").doc(email).collection("metas").doc(metaActual);
     const workList = document.getElementById('tareasList');
     let list = workList.getElementsByClassName('item').length;
-    console.log(list);
     let complete = workList.getElementsByClassName('complete').length;
-    console.log(complete);
-    if(list == complete){
-        console.log("meta completada");
-        //cambiar clase incomplete por complete a la meta
+    if (list == complete) {
+        docRef.update({
+            estado: 1
+        }).then(function () {
+            leerMetas();
+        });
+
+    } else {
+        docRef.update({
+            estado: 0
+        }).then(function () {
+            leerMetas();
+        });
     }
 }
+
