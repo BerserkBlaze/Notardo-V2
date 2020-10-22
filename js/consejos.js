@@ -1,14 +1,3 @@
-window.onload = function(){
-    Swal.fire({
-        title: '<h1 class="alertTitle colorConsejo">Consejo</h1>',
-        html: '<h3 class="alertFontword container_textalign_left" >No te apresures con demasiadas tareas al día, te sentirás presionado después, realiza 2 o 3 al día es lo aconsejable</h3>',
-        timer: 10000,
-        showCloseButton: true,
-        showConfirmButton: false,
-        timerProgressBar: true,
-      });
-}
-
 function consejoNuevaMeta(){
     Swal.fire({
         title: '<h1 class="alertTitle colorConsejo">Consejo</h1>',
