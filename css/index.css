@@ -205,7 +205,7 @@ main .title{
     font-size: 70px;
     text-align: center;
     font-family: sensei;
-    letter-spacing: 20px;
+    letter-spacing: 10px;
     color: var(--color-gray)
 }
 main .list{
@@ -448,10 +448,21 @@ input[type="text"], input[type="date"]{
 
 /* graficas */
 #statistics{
-    background-color: var(--color-black);
+    background-color: var(--color-purple-light);
 }
 #graphics{
     width: 80% !important;
     height: 80% !important;
     margin: auto;
+}
+
+/* css alertas consejos */
+.swal2-timer-progress-bar{
+    background: #0DCB8F !important;
+}
+.colorConsejo{
+    color: var(--color-yellow);
+}
+.container_textalign_left{
+    text-align: left !important;
 }
