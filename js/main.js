@@ -121,7 +121,7 @@ function leerMetas() {
         lista.innerHTML = '';
         querySnapshot.forEach(function (doc) {
             var nombreMeta = doc.data().nombre;
-            lista.innerHTML += '<div class="item incomplete" onclick=obtenerMeta("' + doc.id + '")><h1>' + nombreMeta + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick= eliminarMeta("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarMeta("' + doc.id + '")></div>';
+            lista.innerHTML += '<div class="item complete" onclick=obtenerMeta("' + doc.id + '")><h1>' + nombreMeta + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick= eliminarMeta("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarMeta("' + doc.id + '")></div>';
         });
     });
 }
