@@ -22,28 +22,6 @@ function cambiarSeccion(id_seccion) {
     secciones[id_seccion].classList.remove("oculto");
 }
 
-/*style alert tarea*/
-function workAlert(element) {
-    var nombre = 'Nombre Tarea';
-    Swal.fire({
-        html: '<h1 class="alertTitle">' + nombre + '</h1><br><h3 class="alertFontword">Descripción:</h3><p class="alertFontword">Descripción lorem impsun te quiero bb uwu<P><br><h3 class="alertFontword">Día</h3><p class="alertFontword">dd/mm/dd</p>',
-        showCloseButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Completada',
-        cancelButtonText: 'Todavia no',
-        confirmButtonColor: '#0DCB8F'
-    }).then((result) => {
-        if (result.value) {
-            element.classList.remove('incomplete');
-            element.classList.add('complete');
-        }
-        else if (result.dismiss == 'cancel') {
-            element.classList.remove('complete');
-            element.classList.add('incomplete');
-        }
-    })
-}
-
 /* Creación de usuarios */
 function signUp() {
     var email = document.getElementById("emailSignUp").value;
@@ -82,7 +60,8 @@ function signIn() {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then(function () {
-            console.log("Se autenticó correctamente");
+            document.getElementById("emailSignIn").value = '';
+            document.getElementById("passwordSignIn").value = '';
         })
         .catch(function (error) {
             var errorCode = error.code;
@@ -182,7 +161,8 @@ function nuevaMeta() {
                 nombre: nombre,
                 descripcion: descripcion,
                 fechaInicio: fechaInicio,
-                fechaFin: fechaFin
+                fechaFin: fechaFin,
+                estado: 0
             })
                 .then(function (docRef) {
                     ///////////// ALERT ACÁ //////////////
@@ -335,8 +315,14 @@ function obtenerMeta(id) {
 
             document.getElementById("workNMeta").innerHTML = nombreMeta;
             document.getElementById("workDMeta").innerHTML = descpMeta;
-            document.getElementById("date_start").innerHTML = fechaInMeta;
-            document.getElementById("date_finish").innerHTML = fechaFinMeta;
+            elementFechaInicio = document.getElementsByClassName("date_start");
+            for (var i in elementFechaInicio) {
+                elementFechaInicio[i].innerHTML = fechaInMeta;
+            }
+            elementFechaFin = document.getElementsByClassName("date_finish");
+            for (var j in elementFechaFin) {
+                elementFechaFin[j].innerHTML = fechaFinMeta;
+            }
             leerTareas();
 
         }
@@ -362,6 +348,7 @@ function nuevaTarea() {
                 nombre: nombre,
                 descripcion: descripcion,
                 fechaInicio: fechaInicio,
+                estado: 0
             })
                 .then(function (docRef) {
                     ///////////// ALERT ACÁ //////////////
@@ -376,6 +363,7 @@ function nuevaTarea() {
                     document.getElementById("Wname").value = '';
                     document.getElementById("Wdescription").value = '';
                     document.getElementById("Wdate").value = '';
+                    leerTareas();
 
                 })
 
@@ -391,7 +379,7 @@ function nuevaTarea() {
         ///////////// ALERT ACÁ //////////////
         Swal.fire({
             icon: 'error',
-            html: '<h2 class="alertFontword" >Debes llenar todos los campos para crear tu meta</h2>',
+            html: '<h2 class="alertFontword" >Debes llenar todos los campos para crear tu tarea</h2>',
             showConfirmButton: false,
             timer: 2500
         })
@@ -407,7 +395,136 @@ function leerTareas() {
         lista.innerHTML = '';
         querySnapshot.forEach(function (doc) {
             var nombreTarea = doc.data().nombre;
-            lista.innerHTML += '<div class="item incomplete" onclick="workAlert(this)"><h1>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted"><img src="img/edit.png" alt="" class="btn_edit"></div>'
+            lista.innerHTML += '<div class="item incomplete"><h1 onclick=workAlert("' + doc.id + '",this)>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick=eliminarTarea("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarTarea("' + doc.id + '")></div>'
         });
     });
+}
+
+/*Eliminar tareas */
+function eliminarTarea(docId) {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    db.collection("usuarios").doc(email).collection("metas").doc(metaActual).collection("tareas").doc(docId).delete().then(function () {
+        Swal.fire({
+            icon: 'success',
+            html: '<h2 class="alertFontword" >Eliminaste la tarea correctamente</h2>',
+            showConfirmButton: false,
+            timer: 2000
+        })
+        leerTareas();
+    }).catch(function (error) {
+        console.error("Error removing document: ", error);
+    });
+}
+
+/* Editar tarea */
+function editarTarea(docId) {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+
+    var docRef = db.collection("usuarios").doc(email).collection("metas").doc(metaActual).collection("tareas").doc(docId);
+    docRef.get().then(function (doc) {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            document.getElementById('WEname').value = doc.data().nombre;
+            document.getElementById('WEdescription').value = doc.data().descripcion;
+            document.getElementById('WEdate').value = doc.data().fechaInicio;
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    });
+
+    var button = document.getElementById('editTarea');
+    button.onclick = function () {
+        var metaRef = db.collection("usuarios").doc(email).collection("metas").doc(metaActual).collection("tareas").doc(docId);
+
+        var nombre = document.getElementById("WEname").value;
+        var descripcion = document.getElementById("WEdescription").value;
+        var fechaInicio = document.getElementById("WEdate").value;
+
+        var fechaInDate = new Date(fechaInicio + "T00:00:00");
+        var fechaFiDate = new Date(fechaFinMeta + "T00:00:00");
+        var fechaHoy = obtenerDia();
+
+        if (nombre != "" && descripcion != "" && fechaInicio != "") {
+            if (fechaInDate <= fechaFiDate && fechaInDate >= fechaHoy) {
+                return metaRef.update({
+                    nombre: nombre,
+                    descripcion: descripcion,
+                    fechaInicio: fechaInicio,
+                })
+                    .then(function () {
+                        console.log("Document successfully updated!");
+                        Swal.fire({
+                            icon: 'success',
+                            html: '<h2 class="alertFontword" >Editaste tu tarea correctamente</h2>',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                        document.getElementById("WEname").value = '';
+                        document.getElementById("WEdescription").value = '';
+                        document.getElementById("WEdate").value = '';
+                        leerTareas();
+                    })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    html: '<h2 class="alertFontword" >Asegúrate de que las fechas estén bien</h2>',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
+        } else {
+            Swal.fire({
+                icon: 'error',
+                html: '<h2 class="alertFontword" >Debes llenar todos los campos para editar tu tarea</h2>',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+    }
+}
+
+/*style alert tarea*/
+function workAlert(docId, element) {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    var docRef = db.collection("usuarios").doc(email).collection("metas").doc(metaActual).collection("tareas").doc(docId);
+
+    var nombre;
+    var descripcion;
+    var dia;
+    docRef.get().then(function (doc) {
+        if (doc.exists) {
+            nombre = doc.data().nombre;
+            descripcion = doc.data().descripcion;
+            dia = doc.data().fechaInicio;
+            Swal.fire({
+                html: '<h1 class="alertTitle">' + nombre + '</h1><br><h3 class="alertFontword">Descripción:</h3><p class="alertFontword">' + descripcion + '<P><br><h3 class="alertFontword">Día</h3><p class="alertFontword">' + dia + '</p>',
+                showCloseButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Completada',
+                cancelButtonText: 'Todavía no',
+                confirmButtonColor: '#0DCB8F'
+            }).then((result) => {
+                if (result.value) {
+                    element.classList.remove('incomplete');
+                    element.classList.add('complete');
+                }
+                else if (result.dismiss == 'cancel') {
+                    element.classList.remove('complete');
+                    element.classList.add('incomplete');
+                }
+            })
+
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+
+    }).catch(function (error) {
+        console.log("Error getting document:", error);
+    });
+    
 }
