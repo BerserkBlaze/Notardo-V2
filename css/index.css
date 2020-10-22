@@ -354,6 +354,7 @@ input[type="text"], input[type="date"]{
     margin-bottom:20px;
     font-size: 20px;
     font-family: var(--font-words);
+    text-align: center;
 }
 .work_date_header{
     display: flex;
