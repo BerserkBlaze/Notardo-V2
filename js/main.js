@@ -128,8 +128,9 @@ function leerMetas() {
             } else {
                 clase = "complete";
             }
-            lista.innerHTML += '<div class="item ' + clase + '" onclick=obtenerMeta("' + doc.id + '")><h1>' + nombreMeta + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick= eliminarMeta("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarMeta("' + doc.id + '")></div>';
+            lista.innerHTML += '<div class="item ' + clase + '"><h1 onclick=obtenerMeta("' + doc.id + '")>' + nombreMeta + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick= eliminarMeta("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarMeta("' + doc.id + '")></div>';
         });
+        completeMetas();
     });
 }
 
@@ -302,6 +303,8 @@ function editarMeta(docId) {
 
 ////////// Código de TAREAS //////////
 /* Permite saber cuál es la meta actual */
+var tareasXDia = new Map();
+
 var metaActual;
 var nombreMeta;
 var descpMeta;
@@ -369,9 +372,8 @@ function nuevaTarea() {
                     document.getElementById("Wname").value = '';
                     document.getElementById("Wdescription").value = '';
                     document.getElementById("Wdate").value = '';
-                    completeLength();
-
-
+                    leerTareas();
+                    obtenerTareasXDias(fechaInicio);
                 })
 
         } else {
@@ -412,6 +414,7 @@ function leerTareas() {
 
             lista.innerHTML += '<div class="item ' + clase + '"><h1 onclick=workAlert("' + doc.id + '",this)>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick=eliminarTarea("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarTarea("' + doc.id + '")></div>'
         });
+        completeLength();
     });
 }
 
@@ -554,8 +557,26 @@ function workAlert(docId, element) {
     });
 }
 
-/*Contar completados*/
-// se pone idmeta como parametro
+/* Manejo de metas, tareas y consejos */
+
+/* Contar metas completadas */
+
+function completeMetas() {
+    const workList = document.getElementById('metasList');
+    let complete = workList.getElementsByClassName('complete').length;
+    if (complete >= 4) {
+        Swal.fire({
+            title: '<h1 class="alertTitle colorConsejo">Consejos</h1>',
+            html: '<h3 class="alertFontword container_textalign_left" >Elimina las metas que ya completaste.<br><br>De esta manera, tendras una mejor organización y te enfocaras en las que tienes actualmente.</h3>',
+            timer: 10000,
+            showCloseButton: true,
+            showConfirmButton: false,
+            timerProgressBar: true,
+        });
+    }
+}
+
+/*Contar tareas completadas*/
 function completeLength() {
     var user = firebase.auth().currentUser;
     var email = user.email;
@@ -700,4 +721,35 @@ window.myBar = new Chart(ctx, {
         }
     }
 });
+
+/* Contar tareas según la fecha */
+function obtenerTareasXDias(fechaInicio) {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    db.collection("usuarios").doc(email).collection("metas").get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (docMeta) {
+            db.collection("usuarios").doc(email).collection("metas").doc(docMeta.id).collection("tareas").get().then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    fecha = doc.data().fechaInicio;
+                    if (tareasXDia.get(fecha) == undefined) {
+                        tareasXDia.set(fecha, 1);
+                    } else {
+                        tareasXDia.set(fecha, tareasXDia.get(fecha) + 1);
+                    }
+                    if(tareasXDia.get(fechaInicio) >= 4){
+                        Swal.fire({
+                            title: '<h1 class="alertTitle colorConsejo">Consejo</h1>',
+                            html: '<h3 class="alertFontword container_textalign_left" >No te apresures con demasiadas tareas, te sentirás presionado después, realizar 3 o 4 al día será lo mejor para ti</h3>',
+                            timer: 10000,
+                            showCloseButton: true,
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                          });
+                    }
+                });
+            });
+        });
+    });
+}
+
 
