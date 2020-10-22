@@ -398,7 +398,7 @@ function nuevaTarea() {
         ///////////// ALERT ACÁ //////////////
         Swal.fire({
             icon: 'error',
-            html: '<h2 class="alertFontword" >Debes llenar todos los campos para crear tu meta</h2>',
+            html: '<h2 class="alertFontword" >Debes llenar todos los campos para crear tu tarea</h2>',
             showConfirmButton: false,
             timer: 2500
         })
@@ -414,7 +414,7 @@ function leerTareas() {
         lista.innerHTML = '';
         querySnapshot.forEach(function (doc) {
             var nombreTarea = doc.data().nombre;
-            lista.innerHTML += '<div class="item incomplete" onclick="workAlert(this)"><h1>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick=eliminarTarea("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit"></div>'
+            lista.innerHTML += '<div class="item incomplete" onclick="workAlert(this)"><h1>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick=eliminarTarea("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarTarea("' + doc.id + '")></div>'
         });
     });
 }
@@ -434,4 +434,73 @@ function eliminarTarea(docId) {
     }).catch(function (error) {
         console.error("Error removing document: ", error);
     });
+}
+
+/* Editar tarea */
+function editarTarea(docId) {
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+
+    var docRef = db.collection("usuarios").doc(email).collection("metas").doc(metaActual).collection("tareas").doc(docId);
+    docRef.get().then(function (doc) {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            document.getElementById('WEname').value = doc.data().nombre;
+            document.getElementById('WEdescription').value = doc.data().descripcion;
+            document.getElementById('WEdate').value = doc.data().fechaInicio;
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    });
+
+    var button = document.getElementById('editTarea');
+    button.onclick = function () {
+        var metaRef = db.collection("usuarios").doc(email).collection("metas").doc(metaActual).collection("tareas").doc(docId);
+
+        var nombre = document.getElementById("WEname").value;
+        var descripcion = document.getElementById("WEdescription").value;
+        var fechaInicio = document.getElementById("WEdate").value;
+
+        var fechaInDate = new Date(fechaInicio + "T00:00:00");
+        var fechaFiDate = new Date(fechaFinMeta + "T00:00:00");
+        var fechaHoy = obtenerDia();
+
+        if (nombre != "" && descripcion != "" && fechaInicio != "") {
+            if (fechaInDate <= fechaFiDate && fechaInDate >= fechaHoy) {
+                return metaRef.update({
+                    nombre: nombre,
+                    descripcion: descripcion,
+                    fechaInicio: fechaInicio,
+                })
+                    .then(function () {
+                        console.log("Document successfully updated!");
+                        Swal.fire({
+                            icon: 'success',
+                            html: '<h2 class="alertFontword" >Editaste tu tarea correctamente</h2>',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                        document.getElementById("WEname").value = '';
+                        document.getElementById("WEdescription").value = '';
+                        document.getElementById("WEdate").value = '';
+                        leerTareas();
+                    })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    html: '<h2 class="alertFontword" >Asegúrate de que las fechas estén bien</h2>',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
+        } else {
+            Swal.fire({
+                icon: 'error',
+                html: '<h2 class="alertFontword" >Debes llenar todos los campos para editar tu tarea</h2>',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+    }
 }
