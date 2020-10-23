@@ -1,4 +1,5 @@
 
+
 let month_Names = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre','Octubre', 'Noviembre', 'Diciembre'];
 
 let current_Date = new Date();
@@ -48,8 +49,6 @@ const set_NewDate = () => {
     monthS.textContent = month_Names[month_Number];
     yearS.textContent = current_Year.toString();
 }
-
-
 var barChartData = {
     labels: [1,2,3,5,6,8,9,10], // dias con tareas
     datasets: [{
