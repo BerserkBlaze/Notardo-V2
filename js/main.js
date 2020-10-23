@@ -100,6 +100,7 @@ function signOut() {
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         leerMetas();
+        set_Barchartdata(month_Number+1);
         console.log("Usuario Activo"); //////////// PENDIENTE ///////////
 
     } else {
@@ -599,11 +600,11 @@ function completeLength() {
         });
     }
 }
-let month_Names = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre','Octubre', 'Noviembre', 'Diciembre'];
+let month_Names = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 let current_Date = new Date();
 let current_Day = current_Date.getDate();
-let current_Month= current_Date.getMonth();
+let current_Month = current_Date.getMonth();
 let month_Number = current_Date.getMonth();
 let current_Year = current_Date.getFullYear();
 
@@ -617,14 +618,35 @@ let next_MonthDOM = document.getElementById('next-month-statistics');
 monthS.textContent = month_Names[month_Number];
 yearS.textContent = current_Year.toString();
 
-prev_MonthDOM.addEventListener('click', ()=>last_Month());
-next_MonthDOM.addEventListener('click', ()=>next_Month());
+
+prev_MonthDOM.addEventListener('click', () => last_Month());
+next_MonthDOM.addEventListener('click', () => next_Month());
+
+const get_TotalDays = monthS => {
+    if (monthS === -1) monthS = 11;
+
+    if (monthS == 0 || monthS == 2 || monthS == 4 || monthS == 6 || monthS == 7 || monthS == 9 || monthS == 11) {
+        return 31;
+
+    } else if (monthS == 3 || monthS == 5 || monthS == 8 || monthS == 10) {
+        return 30;
+
+    } else {
+
+        return isLeap() ? 29 : 28; // si verdadero 29 sino 28
+    }
+}
+
+// Saber si el año es bisiesto o no
+const is_Leap = () => {
+    return ((current_Year % 100 !== 0) && (current_Year % 4 === 0) || (current_Year % 400 === 0));
+}
 
 // El mes anterior
 const last_Month = () => {
-    if(month_Number !== 0){ //¿estamos en enero?
+    if (month_Number !== 0) { //¿estamos en enero?
         month_Number--;
-    }else{ // si lo estamos cambiamos a diciembre y restamos un año
+    } else { // si lo estamos cambiamos a diciembre y restamos un año
         month_Number = 11;
         current_Year--;
     }
@@ -633,9 +655,9 @@ const last_Month = () => {
 }
 // El mes siguiente
 const next_Month = () => {
-    if(month_Number !== 11){// ¿Estamos en diciembre?
+    if (month_Number !== 11) {// ¿Estamos en diciembre?
         month_Number++;
-    }else{ //si lo estamos cambiamos a enero y sumamos un año
+    } else { //si lo estamos cambiamos a enero y sumamos un año
         month_Number = 0;
         current_Year++;
     }
@@ -644,83 +666,147 @@ const next_Month = () => {
 }
 // cuando movamos de mes
 const set_NewDate = () => {
-    current_Date.setFullYear(current_Year,month_Number,current_Day);
+    current_Date.setFullYear(current_Year, month_Number, current_Day);
     monthS.textContent = month_Names[month_Number];
     yearS.textContent = current_Year.toString();
+    get_diaTarea(month_Number+1);
 }
-// var tareaxdia = new Map();
-// var tareaxdia_complete = new Map();
-// const set_Barchartdata = () =>{
-//     var user = firebase.auth().currentUser;
-//     var email = user.email;
-//     db.collection("usuarios").doc(email).collection("metas").get().then(function (querySnapshot) {
-//         querySnapshot.forEach(function (docMeta) {
-//             db.collection("usuarios").doc(email).collection("metas").doc(docMeta.id).collection("tareas").get().then(function (querySnapshot) {
-//                 querySnapshot.forEach(function (doc) {
-//                     fecha = doc.data().fechaInicio;
-//                     if (tareaxdia.get(fecha) == undefined) {
-//                         tareaxdia.set(fecha, 1);
-//                     } else {
-//                         tareaxdia.set(fecha, tareasXDia.get(fecha) + 1);
-//                     }
-//                 });
-//             });
-//         });
-//     });
-//     console.log(tareaxdia);
-// }
-// var array_diaTareas;
-// const set
+var tareaxdia;
+var tareaxdia_complete;
+const set_Barchartdata = (mes) => {
+    tareaxdia= new Map();
+    tareaxdia_complete = new Map();
+    var user = firebase.auth().currentUser;
+    var email = user.email;
+    var cont = 0;
+    db.collection("usuarios").doc(email).collection("metas").get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (docMeta) {
+            db.collection("usuarios").doc(email).collection("metas").doc(docMeta.id).collection("tareas").get().then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    fecha = doc.data().fechaInicio;
+                    estado = doc.data().estado;
+                    if (tareaxdia.get(fecha) == undefined) {
+                        tareaxdia.set(fecha, 1);
+                    } else {
+                        tareaxdia.set(fecha, tareaxdia.get(fecha) + 1);
+                    }
+                    if (tareaxdia_complete.get(fecha) == undefined) {
+                        if(estado == 1){
+                            tareaxdia_complete.set(fecha, 1);
+                        }
+                        else if(estado == 0){
+                            tareaxdia_complete.set(fecha, 0);
+                        }
+                    } else if(estado ==1){
+                        tareaxdia_complete.set(fecha, tareaxdia_complete.get(fecha) + 1);
+                    }
+                }); get_diaTarea(mes);
+            });
+        });
+    });
+}
+var dias_mes;
+var dias_valor;
+var dias_tareasCompletas;
 
-var barChartData = {
-    labels: [1,2,3,5,6,8,9,10], // dias con tareas
-    datasets: [{
-        label: 'Total tareas',
-        backgroundColor: "#5E005E",
-        data: [
-            5,3,6,7,2,3,2 // total de tareas ese dia ejemplo 5 tareas el dia 1, 3 tareas 3l dia 2, etc
-        ]
-    }, {
-        label: 'Completadas',
-        backgroundColor: "#0DCB8F",
-        data: [
-            1,3,5,4,7,2,2,2 // tareas completadas ese dia
-        ]
-    }]
-
-};
-var ctx = document.getElementById('graphics').getContext('2d');
-window.myBar = new Chart(ctx, {
-    type: 'bar',
-    data: barChartData,
-    options: {
-        responsive: true,
-        tooltips: {
-            mode: 'index',
-            intersect: true
-        },
-        scales: {
-            yAxes: [{
-                type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                display: true,
-                scaleLabel:{
-                    display: true,
-                    labelString: 'Numero de tareas'
-                },
-                position: 'left',
-                ticks: {
-                    beginAtZero: true
-                }
-            }],
-            xAxes:[{
-                scaleLabel:{
-                    display: true,
-                    labelString: 'Días del mes'
-                }
-            }]
+const get_diaTarea = (mes) => {
+    dias_mes = [];
+    dias_valor = [];
+    dias_tareasCompletas = [];
+    var i = 0;
+    for (var [key, value] of tareaxdia) {
+        console.log("-------");
+        array_key = key.split("-");
+        if (array_key[1] == mes) {
+            dias_valor[i] = value;
+            dias_mes[i] = array_key[2];
+            i++;
         }
     }
-});
+     i = 0;
+    for (var [key, value] of tareaxdia_complete) {
+        array_key = key.split("-");
+        if (array_key[1] == mes) {
+            dias_tareasCompletas[i] = value;
+            i++
+        }
+    }
+    for(var i= 0; i<dias_mes.length-1; i++){
+        for (let j = i+1; j < dias_mes.length; j++) {
+            if(dias_mes[j]<dias_mes[i]){
+                let aux = dias_mes[i];
+                dias_mes[i] = dias_mes[j];
+                dias_mes[j] = aux;
+                aux = dias_valor[i];
+                dias_valor[i] = dias_valor[j];
+                dias_valor[j] = aux;
+                aux=dias_tareasCompletas[i];
+                dias_tareasCompletas[i] = dias_tareasCompletas[j];
+                dias_tareasCompletas[j] = aux;
+            }
+        }
+    }
+    console.log(dias_valor);
+    console.log(dias_mes);
+    console.log(dias_tareasCompletas)
+    get_Barchartdata();
+}
+var barChartData;
+function get_Barchartdata() {
+    barChartData = {
+        labels: dias_mes, // dias con tareas
+        datasets: [{
+            label: 'Total tareas',
+            backgroundColor: "#5E005E",
+            data: dias_valor // total de tareas ese dia ejemplo 5 tareas el dia 1, 3 tareas 3l dia 2, etc
+        }, {
+            label: 'Completadas',
+            backgroundColor: "#0DCB8F",
+            data: dias_tareasCompletas // tareas completadas ese dia
+        }]
+    };
+    graficar()
+}
+
+function graficar() {
+    let ctx = document.getElementById('graphics').getContext('2d');
+    if (window.myBar) {
+        window.myBar.clear();
+        window.myBar.destroy();
+    }
+    window.myBar = new Chart(ctx, {
+        type: 'bar',
+        data: barChartData,
+        options: {
+            responsive: true,
+            tooltips: {
+                mode: 'index',
+                intersect: true
+            },
+            scales: {
+                yAxes: [{
+                    type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Numero de tareas'
+                    },
+                    position: 'left',
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Días del mes'
+                    }
+                }]
+            }
+        }
+    });
+}
+
 
 /* Contar tareas según la fecha */
 function obtenerTareasXDias(fechaInicio) {
@@ -736,7 +822,7 @@ function obtenerTareasXDias(fechaInicio) {
                     } else {
                         tareasXDia.set(fecha, tareasXDia.get(fecha) + 1);
                     }
-                    if(tareasXDia.get(fechaInicio) >= 4){
+                    if (tareasXDia.get(fechaInicio) >= 4) {
                         Swal.fire({
                             title: '<h1 class="alertTitle colorConsejo">Consejo</h1>',
                             html: '<h3 class="alertFontword container_textalign_left" >No te apresures con demasiadas tareas, te sentirás presionado después, realizar 3 o 4 al día será lo mejor para ti</h3>',
@@ -744,7 +830,7 @@ function obtenerTareasXDias(fechaInicio) {
                             showCloseButton: true,
                             showConfirmButton: false,
                             timerProgressBar: true,
-                          });
+                        });
                     }
                 });
             });
