@@ -51,6 +51,17 @@ function cambiarSplash() {
         }
     });
 }
+var contActivacion=1;
+function activarConsejos(element){
+    if(contActivacion==1){
+        element.classList.remove("activoConsejo");
+        contActivacion = 0;
+    }
+    else if(contActivacion == 0){
+        element.classList.add("activoConsejo");
+        contActivacion = 1;
+    }
+}
 function cambiarSeccion(id_seccion) {
     for (var i in secciones) {
         secciones[i].classList.add("oculto");
@@ -62,13 +73,13 @@ function cambiarSeccion(id_seccion) {
     if(id_seccion == 10){
         set_Barchartdata(month_Number+1);
     }
-    if(id_seccion == 4){
+    if(id_seccion == 4 && contActivacion == 1){
         consejoNuevaMeta();
     }
-    if(id_seccion == 6){
+    if(id_seccion == 6 && contActivacion == 1){
         consejoTarea();
     }
-    if(id_seccion == 7){
+    if(id_seccion == 7 && contActivacion == 1){
         consejoNuevaTarea();
     }
 }
@@ -165,6 +176,14 @@ function signIn() {
             document.getElementById("emailSignIn").value = '';
             document.getElementById("passwordSignIn").value = '';
             cambiarSeccion(3);
+            Swal.fire({
+                title: '<h1 class="alertTitle colorConsejo">Recuerda</h1>',
+                html: '<h1 class="alertFontword">Puedes activar o desactivar los consejos en la barra de navegación</h1>',
+                timer: 5000,
+                showCloseButton: true,
+                showConfirmButton: false,
+                timerProgressBar: true,
+              });
         })
         .catch(function (error) {
             var errorCode = error.code;
