@@ -39,7 +39,17 @@ function inicializarVistas() {
 }
 function cambiarSplash() {
     secciones[2].classList.add("oculto");
-    secciones[0].classList.remove("oculto");
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            leerMetas();
+            secciones[3].classList.remove("oculto");
+            secciones[11].classList.remove("oculto");
+            console.log("Usuario Activo"); //////////// PENDIENTE ///////////
+        } else {
+            secciones[0].classList.remove("oculto");
+            console.log("Usuario Inactivo");
+        }
+    });
 }
 function cambiarSeccion(id_seccion) {
     for (var i in secciones) {
@@ -49,6 +59,18 @@ function cambiarSeccion(id_seccion) {
         secciones[11].classList.remove("oculto");
     }
     secciones[id_seccion].classList.remove("oculto");
+    if(id_seccion == 10){
+        set_Barchartdata(month_Number+1);
+    }
+    if(id_seccion == 4){
+        consejoNuevaMeta();
+    }
+    if(id_seccion == 6){
+        consejoTarea();
+    }
+    if(id_seccion == 7){
+        consejoNuevaTarea();
+    }
 }
 
 function cambiarPosition(id_position){
@@ -62,7 +84,38 @@ function cambiarPosition(id_position){
     posicionesIndice[2].classList.remove("position");
     posicionesIndice[id_position].classList.add("position");
 }
-
+/* Alerta de consejos*/
+function consejoNuevaMeta(){
+    Swal.fire({
+        title: '<h1 class="alertTitle colorConsejo">Consejo</h1>',
+        html: '<h3 class="alertFontword" >Establece Metas claras, cortas y específicas</h3>',
+        timer: 5000,
+        showCloseButton: true,
+        showConfirmButton: false,
+        timerProgressBar: true,
+      });
+}
+function consejoTarea(){
+    Swal.fire({
+        title: '<h1 class="alertTitle colorConsejo">Consejos</h1>',
+        html: '<h3 class="alertFontword container_textalign_left" >Las tareas son las acciones que se deben realizar para alcanzar la meta<br><br>Establece las prioridades para cumplir la meta y crea tus tareas de acuerdo a ellas.<br><br>Las tareas más difíciles o que tengan mayor prioridad ponlas de primero y deja las más fáciles para el final.</h3>',
+        timer: 10000,
+        showCloseButton: true,
+        showConfirmButton: false,
+        timerProgressBar: true,
+      });
+}
+function consejoNuevaTarea(){
+    var meta = nombreMeta;
+    Swal.fire({
+        title: '<h1 class="alertTitle colorConsejo">Consejo</h1>',
+        html: '<h3 class="alertFontword container_textalign_left" >Ten claro el objetivo final: '+meta+'<br><br>Crea tareas pequeñas para cumplir tu meta<br><br>Si crees que la tarea es muy pesada divídela aún más</h3>',
+        timer: 10000,
+        showCloseButton: true,
+        showConfirmButton: false,
+        timerProgressBar: true,
+      });
+}
 /* Frases motivacionales en el splash */
 function frasesSplash(){
     aleatorio=Math.floor(Math.random() * (15 - 0) + 0);
@@ -86,6 +139,7 @@ function signUp() {
             })
             document.getElementById('emailSignUp').value = '';
             document.getElementById('passwordSignUp').value = '';
+            cambiarSeccion(3);
         })
         .catch(function (error) {
             var errorCode = error.code;
@@ -150,11 +204,11 @@ function signOut() {
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         leerMetas();
-        set_Barchartdata(month_Number+1);
+        // setTimeout(cambiarSeccion(3),tiempo_splash);
         console.log("Usuario Activo"); //////////// PENDIENTE ///////////
 
     } else {
-
+        // setTimeout(cambiarSeccion(0),tiempo_splash)
         console.log("Usuario Inactivo");
     }
 });
@@ -179,7 +233,7 @@ function leerMetas() {
             } else {
                 clase = "complete";
             }
-            lista.innerHTML += '<div class="item ' + clase + '"><h1 onclick=obtenerMeta("' + doc.id + '")>' + nombreMeta + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick= eliminarMeta("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarMeta("' + doc.id + '")></div>';
+            lista.innerHTML += '<div class="item ' + clase + '"><h1 onclick=obtenerMeta("' + doc.id + '") class="pointer_hand">' + nombreMeta + '</h1><img src="img/deleted.png" alt="" class="btn_deleted pointer_hand" onclick= eliminarMeta("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit pointer_hand" onclick=editarMeta("' + doc.id + '")></div>';
         });
         completeMetas();
     });
@@ -351,7 +405,7 @@ function editarMeta(docId) {
 
 ////////// Código de TAREAS //////////
 /* Permite saber cuál es la meta actual */
-var tareasXDia = new Map();
+var tareasXDia;
 
 var metaActual;
 var nombreMeta;
@@ -461,7 +515,7 @@ function leerTareas() {
                 clase = "complete";
             }
 
-            lista.innerHTML += '<div class="item ' + clase + '"><h1 onclick=workAlert("' + doc.id + '",this)>' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick=eliminarTarea("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarTarea("' + doc.id + '")></div>'
+            lista.innerHTML += '<div class="item ' + clase + '"><h1 onclick=workAlert("' + doc.id + '",this) class="pointer_hand">' + nombreTarea + '</h1><img src="img/deleted.png" alt="" class="btn_deleted" onclick=eliminarTarea("' + doc.id + '")><img src="img/edit.png" alt="" class="btn_edit" onclick=editarTarea("' + doc.id + '")></div>'
         });
         completeLength();
     });
@@ -534,6 +588,7 @@ function editarTarea(docId) {
                         document.getElementById("WEdescription").value = '';
                         document.getElementById("WEdate").value = '';
                         leerTareas();
+                        obtenerTareasXDias(fechaInicio);
                         cambiarSeccion(6);
                     })
             } else {
@@ -618,7 +673,7 @@ function completeMetas() {
     if (complete >= 4) {
         Swal.fire({
             title: '<h1 class="alertTitle colorConsejo">Consejos</h1>',
-            html: '<h3 class="alertFontword container_textalign_left" >Elimina las metas que ya completaste.<br><br>De esta manera, tendras una mejor organización y te enfocaras en las que tienes actualmente.</h3>',
+            html: '<h3 class="alertFontword container_textalign_left" >Elimina las metas que ya completaste.<br><br>De esta manera, tendrás una mejor organización y te enfocarás en las que tienes actualmente.</h3>',
             timer: 10000,
             showCloseButton: true,
             showConfirmButton: false,
@@ -765,7 +820,6 @@ const get_diaTarea = (mes) => {
     dias_tareasCompletas = [];
     var i = 0;
     for (var [key, value] of tareaxdia) {
-        console.log("-------");
         array_key = key.split("-");
         if (array_key[1] == mes) {
             dias_valor[i] = value;
@@ -796,9 +850,6 @@ const get_diaTarea = (mes) => {
             }
         }
     }
-    console.log(dias_valor);
-    console.log(dias_mes);
-    console.log(dias_tareasCompletas)
     get_Barchartdata();
 }
 var barChartData;
@@ -860,6 +911,7 @@ function graficar() {
 
 /* Contar tareas según la fecha */
 function obtenerTareasXDias(fechaInicio) {
+    tareasXDia = new Map();
     var user = firebase.auth().currentUser;
     var email = user.email;
     db.collection("usuarios").doc(email).collection("metas").get().then(function (querySnapshot) {
@@ -868,11 +920,14 @@ function obtenerTareasXDias(fechaInicio) {
                 querySnapshot.forEach(function (doc) {
                     fecha = doc.data().fechaInicio;
                     if (tareasXDia.get(fecha) == undefined) {
+                        console.log(fecha)
                         tareasXDia.set(fecha, 1);
                     } else {
+                        console.log(fecha);
                         tareasXDia.set(fecha, tareasXDia.get(fecha) + 1);
                     }
                     if (tareasXDia.get(fechaInicio) >= 4) {
+                        console.log(tareasXDia.get(fechaInicio));
                         Swal.fire({
                             title: '<h1 class="alertTitle colorConsejo">Consejo</h1>',
                             html: '<h3 class="alertFontword container_textalign_left" >No te apresures con demasiadas tareas, te sentirás presionado después, realizar 3 o 4 al día será lo mejor para ti</h3>',

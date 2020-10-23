@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Knewave&family=Lato:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
@@ -30,10 +31,33 @@
     <header id="Barindice" class="oculto">
         <h1 class="title_proyect punteroDefault">NOTARDO</h1>
         <nav>
-            <div id="BarIndiceInicio" class="position"><a href="javascript:void(0);" onclick="cambiarSeccion(3), cambiarPosition(0);">Inicio</a></div>
-            <div id="BarIndiceCalendario"><a href="javascript:void(0);" onclick="cambiarSeccion(9), cambiarPosition(1);">Calendario</a></div>
-            <div id="BarIndiceEstadistica"><a href="javascript:void(0);" onclick="cambiarSeccion(10), cambiarPosition(2);">Estadísticas</a></div>
-            <div><a href="javascript:void(0);" onclick="signOut()">Cerrar Sesión</a></div>
+            <div
+            id="BarIndiceInicio"
+            class="position pointer_hand"
+            onclick="cambiarSeccion(3), cambiarPosition(0);"
+            >
+                <a href="javascript:void(0);">Inicio</a>
+            </div>
+            <div
+            id="BarIndiceCalendario"
+            onclick="cambiarSeccion(9), cambiarPosition(1);"
+            class="pointer_hand"
+            >
+                <a href="javascript:void(0);">Calendario</a>
+            </div>
+            <div
+            id="BarIndiceEstadistica"
+            onclick="cambiarSeccion(10), cambiarPosition(2);"
+            class="pointer_hand"
+            >
+                <a href="javascript:void(0);">Estadísticas</a>
+            </div>
+            <div
+            onclick="signOut()"
+            class="pointe_hand"
+            >
+                <a href="javascript:void(0);" >Cerrar Sesión</a>
+            </div>
         </nav>
     </header>
     <section class="withoutHeader splash" id="splash">
@@ -49,7 +73,7 @@
             <p>¡Bienvenido a Notardo!</p>
             <input id="emailSignIn" type="email" placeholder="user@email.com">
             <input id="passwordSignIn" type="password" placeholder="password">
-            <button onclick="signIn(); leerMetas()">Iniciar</button>
+            <button onclick="signIn(); leerMetas()" class="pointer_hand">Iniciar</button>
             <div class="links">
                 <p>¿No tienes cuenta aún?</p>
                 <a href="#signIn" class="colorDif" onclick="cambiarSeccion(1)">Regístrate</a>
@@ -62,7 +86,7 @@
             <p>Crea tu cuenta para empezar a usar Notardo</p>
             <input id="emailSignUp" type="email" placeholder="user@email.com">
             <input id="passwordSignUp" type="password" placeholder="password">
-            <button onclick="signUp()">Registrarte</button>
+            <button onclick="signUp()" class="pointer_hand">Registrarte</button>
             <div class="links">
                 <p>¿Ya tienes una cuenta?</p>
                 <a href="#signIn" class="colorDif" onclick="cambiarSeccion(0)">Iniciar sesión</a>
@@ -75,16 +99,6 @@
                 <h1 class="title">METAS</h1>
             </div>
             <div id="metasList" class="list">
-                <div class="item complete">
-                    <h1>Ejemplo nombre Meta 1 </h1>
-                    <img src="img/deleted.png" alt="" class="btn_deleted">
-                    <img src="img/edit.png" alt="" class="btn_edit">
-                </div>
-                <div class="item incomplete">
-                    <h1>Ejemplo nombre Meta 2</h1>
-                    <img src="img/deleted.png" alt="" class="btn_deleted">
-                    <img src="img/edit.png" alt="" class="btn_edit">
-                </div>
             </div>
             <div class="footer">
                 <img onclick="cambiarSeccion(4)" src="img/add.png" alt="" class="btn_add">

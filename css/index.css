@@ -11,8 +11,8 @@ body{
     --color-yellow:#FFAF53;
     --color-orange-light:#E88554;
     --color-orange-dark: #E55D4A;
-    --color-purple-light: #AB2F52;
-    --color-purple-dark: #5E005E;
+    --color-purple-light: #ba1d5d;
+    --color-purple-dark: #29044d;
     --color-gray: #47525E;
     --color-green:#0DCB8F;
     --font-title:'Knewave', cursive;
@@ -40,7 +40,9 @@ body{
 }
     /* splash */
 .splash{
-    background: var(--color-orange-dark);
+    background-image: url("../img/splash.png");
+    background-position: center;
+    background-size: cover;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
@@ -50,10 +52,10 @@ body{
     height: 200px;
     padding: 0;
     background: var(--color-yellow);
-    border: 13px solid var(--color-orange-dark);
-    border-top: 13px solid var(--color-orange-light);
-    border-bottom: 13px solid var(--color-orange-light);
-    border-right: 13px solid var(--color-orange-light);
+    border: 13px solid #fbc4d4;
+    border-top: 13px solid #fb6681;
+    border-bottom: 13px solid #fb6681;
+    border-right: 13px solid #fb6681;
     animation: spin 2s linear infinite;
     grid-row: 1/2;
     grid-column: 2/3;
@@ -86,13 +88,18 @@ body{
 #contenedorFrases{
     position: absolute;
     top: 80%;
-    width: inherit;
+    width: 70%;
+    left: calc(50% - (70%/2));
+    /* background-color: var(--color-yellow);
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px 1px var(--color-black); */
 }
 #FrasesMotivacionales{
     position: relative;
     text-align: center;
     font-family: 'Indie Flower', cursive;
     font-size: xx-large;
+    color: var(--color-white);
 }
 .signIn{
     background-color: var(--color-yellow);
@@ -194,9 +201,6 @@ header nav div:hover{
 .position{
     background-color: var(--color-yellow);
 }
-.position a:hover{
-    color: var(--color-purple-light)
-}
 /* section */
 section{
     display: flex;
@@ -255,6 +259,9 @@ main .list .item{
 .incomplete{
     border: 1px solid var(--color-gray)
 }
+.pointer_hand{
+    cursor: pointer;
+}
 main .list .item h1{
     font-family: var(--font-words);
     color: var(--color-gray);
@@ -290,6 +297,7 @@ main #footer_work{
     border-radius: 10px;
     padding: 0px 6px;
     transition: .5s;
+    cursor: pointer;
 }
 .btn_back:hover{
     transform: scale(1.1);
@@ -298,6 +306,7 @@ main #footer_work{
     background: var(--color-yellow);
     border-radius: 100%;
     transition: transform .5s;
+    cursor: pointer;
 }
 .btn_add:hover{
     transform: scale(1.1);
@@ -342,6 +351,7 @@ input[type="text"], input[type="date"]{
 .form_btns input[type="button"]{
     width: 150px;
     transition: .5s;
+    cursor: pointer;
 }
 .form_btns input[type="button"]:hover{
     width: 150px;
@@ -394,10 +404,12 @@ input[type="text"], input[type="date"]{
 /*section CALENDARIO*/
 #calendar{
     flex-direction: column;
+    background: var(--color-purple-light);
 }
 .calendar {
     background: var(--color-white);
     width: 70%;
+    height: 80%;
     min-width: 600px;
     margin: 1em auto;
     padding: .5em 0;
