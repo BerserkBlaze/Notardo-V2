@@ -1,25 +1,73 @@
 var secciones = [];
-var tiempo_splash = 2500;
+var motivaciones=["Lo que hoy tal vez te parezca una gran montaña, mañana podrías verlo como una pequeña colina.",
+"No existe una manera fácil. No importa qué tan talentoso seas, tu talento te va a fallar si no trabajas duro.",
+"La velocidad solo es útil si se corre en la dirección correcta.",
+"Dos opciones: te rindes o luchas por lo que quieres.",
+"Si haces únicamente lo que puedes hacer, no serás más de lo que eres ahora.",
+"El secreto del éxito cosiste en soñar durante la noche y trabajar arduamente durante el día.",
+"No hay un ingrediente secreto. Sólo eres tú.",
+"Si no consigues controlar tu tiempo, tampoco conseguirás controlar tu vida.",
+"Apunta hacia la luna, pues, aunque te equivoques, irás a parar a las estrellas.",
+"Cuando el objetivo te parezca difícil, no cambies de objetivo, busca un nuevo camino para llegar a él.",
+"No es tu aptitud, sino tu actitud, lo que determina tu altitud.",
+"Hagas lo que hagas, hazlo bien.",
+"Vale más fracasar por intentar un triunfo, que dejar de triunfar por temor a un fracaso.",
+"Sigue intentando, muchas veces la última llave es la que abre la puerta.",
+"No te sientes a esperar que la vida cambie, porque la vida cambiará cuando cambies tú.",
+"Tu futuro no está escrito, eres tú quien lo escribe."];
+var tiempo_splash = 5000;
 
 window.onload = function () {
     this.inicializarVistas();
-    //setTimeout(cambiarSplash, tiempo_splash);
+    frasesSplash();
+    setTimeout(cambiarSplash, tiempo_splash);
 }
+
 function inicializarVistas() {
     secciones[0] = document.getElementById("signIn");
     secciones[1] = document.getElementById("signUp");
-    secciones[3] = document.getElementById("splash");
+    secciones[2] = document.getElementById("splash");
+    secciones[3] = document.getElementById("home");
+    secciones[4] = document.getElementById("addHome");
+    secciones[5] = document.getElementById("editHome");
+    secciones[6] = document.getElementById("work");
+    secciones[7] = document.getElementById("addWork");
+    secciones[8] = document.getElementById("editWork");
+    secciones[9] = document.getElementById("calendar");
+    secciones[10] = document.getElementById("statistics");
+    secciones[11] = document.getElementById("Barindice");
 }
 function cambiarSplash() {
-    secciones[3].classList.add("oculto");
-    secciones[3].classList.remove("splash");
-    secciones[0].className = "signIn";
+    secciones[2].classList.add("oculto");
+    secciones[0].classList.remove("oculto");
 }
 function cambiarSeccion(id_seccion) {
     for (var i in secciones) {
         secciones[i].classList.add("oculto");
     }
+    if(id_seccion>2){
+        secciones[11].classList.remove("oculto");
+    }
     secciones[id_seccion].classList.remove("oculto");
+}
+
+function cambiarPosition(id_position){
+    posicionesIndice=[]
+    posicionesIndice[0]=document.getElementById("BarIndiceInicio");
+    posicionesIndice[1]=document.getElementById("BarIndiceCalendario");
+    posicionesIndice[2]=document.getElementById("BarIndiceEstadistica");
+
+    posicionesIndice[0].classList.remove("position");
+    posicionesIndice[1].classList.remove("position");
+    posicionesIndice[2].classList.remove("position");
+    posicionesIndice[id_position].classList.add("position");
+}
+
+/* Frases motivacionales en el splash */
+function frasesSplash(){
+    aleatorio=Math.floor(Math.random() * (15 - 0) + 0);
+    frasesM=document.getElementById("FrasesMotivacionales");
+    frasesM.innerHTML= '"'+motivaciones[aleatorio]+'"';
 }
 
 /* Creación de usuarios */
@@ -62,6 +110,7 @@ function signIn() {
         .then(function () {
             document.getElementById("emailSignIn").value = '';
             document.getElementById("passwordSignIn").value = '';
+            cambiarSeccion(3);
         })
         .catch(function (error) {
             var errorCode = error.code;
@@ -89,6 +138,7 @@ function signOut() {
         document.getElementById('emailSignIn').value = '';
         document.getElementById('passwordSignIn').value = '';
         document.getElementById('metasList').innerHTML = '';
+        cambiarSeccion(0);
     }).catch(function (error) {
 
     });
@@ -187,8 +237,8 @@ function nuevaMeta() {
                     document.getElementById("Mdescription").value = '';
                     document.getElementById("Mdate_start").value = '';
                     document.getElementById("Mdate_end").value = '';
-
                     leerMetas();
+                    cambiarSeccion(3);
                 })
 
         } else {
@@ -239,8 +289,8 @@ function editarMeta(docId) {
             console.log("Document data:", doc.data());
             document.getElementById('MEname').value = doc.data().nombre;
             document.getElementById('MEdescription').value = doc.data().descripcion;
-            document.getElementById('MEdate_start').value = doc.data().fechaInicio;
             document.getElementById('MEdate_end').value = doc.data().fechaFin;
+            cambiarSeccion(5);
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -253,20 +303,17 @@ function editarMeta(docId) {
 
         var nombre = document.getElementById("MEname").value;
         var descripcion = document.getElementById("MEdescription").value;
-        var fechaInicio = document.getElementById("MEdate_start").value;
         var fechaFin = document.getElementById("MEdate_end").value;
 
-        console.log(nombre, descripcion, fechaInicio, fechaFin);
-        var fechaInDate = new Date(fechaInicio + "T00:00:00");
+        console.log(nombre, descripcion, fechaFin);
         var fechaFiDate = new Date(fechaFin + "T00:00:00");
         var fechaHoy = obtenerDia();
 
-        if (nombre != "" && descripcion != "" && fechaInicio != "" && fechaFin != "") {
-            if (fechaInDate <= fechaFiDate && fechaInDate >= fechaHoy) {
+        if (nombre != "" && descripcion != "" && fechaFin != "") {
+            if (fechaFiDate >= fechaHoy) {
                 return metaRef.update({
                     nombre: nombre,
                     descripcion: descripcion,
-                    fechaInicio: fechaInicio,
                     fechaFin: fechaFin
                 })
                     .then(function () {
@@ -279,9 +326,9 @@ function editarMeta(docId) {
                         })
                         document.getElementById("MEname").value = '';
                         document.getElementById("MEdescription").value = '';
-                        document.getElementById("MEdate_start").value = '';
                         document.getElementById("MEdate_end").value = '';
                         leerMetas();
+                        cambiarSeccion(3);
                     })
             } else {
                 Swal.fire({
@@ -334,7 +381,7 @@ function obtenerMeta(id) {
                 elementFechaFin[j].innerHTML = fechaFinMeta;
             }
             leerTareas();
-
+            cambiarSeccion(6);
         }
     });
 }
@@ -375,6 +422,7 @@ function nuevaTarea() {
                     document.getElementById("Wdate").value = '';
                     leerTareas();
                     obtenerTareasXDias(fechaInicio);
+                    cambiarSeccion(6);
                 })
 
         } else {
@@ -448,6 +496,7 @@ function editarTarea(docId) {
             document.getElementById('WEname').value = doc.data().nombre;
             document.getElementById('WEdescription').value = doc.data().descripcion;
             document.getElementById('WEdate').value = doc.data().fechaInicio;
+            cambiarSeccion(8);
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -485,6 +534,7 @@ function editarTarea(docId) {
                         document.getElementById("WEdescription").value = '';
                         document.getElementById("WEdate").value = '';
                         leerTareas();
+                        cambiarSeccion(6);
                     })
             } else {
                 Swal.fire({
@@ -585,7 +635,7 @@ function completeLength() {
     const workList = document.getElementById('tareasList');
     let list = workList.getElementsByClassName('item').length;
     let complete = workList.getElementsByClassName('complete').length;
-    if (list == complete) {
+    if (list == complete && list!=0) {
         docRef.update({
             estado: 1
         }).then(function () {
