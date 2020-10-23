@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Knewave&family=Lato:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/sweetalert2.min.css">
     <script src="js/sweetalert2.all.min.js"></script>
@@ -26,20 +27,23 @@
 </head>
 
 <body>
-    <header class="oculto">
-        <h1 class="title_proyect">NOTARDO</h1>
+    <header id="Barindice" class="oculto">
+        <h1 class="title_proyect punteroDefault">NOTARDO</h1>
         <nav>
-            <div class="position"><a href="#home">Inicio</a></div>
-            <div><a href="#Calendario">Calendario</a></div>
-            <div><a href="#Estadistica">Estadísticas</a></div>
-            <div><a href="#CerrarSesión" onclick="signOut()">Cerrar Sesión</a></div>
+            <div id="BarIndiceInicio" class="position"><a href="javascript:void(0);" onclick="cambiarSeccion(3), cambiarPosition(0);">Inicio</a></div>
+            <div id="BarIndiceCalendario"><a href="javascript:void(0);" onclick="cambiarSeccion(9), cambiarPosition(1);">Calendario</a></div>
+            <div id="BarIndiceEstadistica"><a href="javascript:void(0);" onclick="cambiarSeccion(10), cambiarPosition(2);">Estadísticas</a></div>
+            <div><a href="javascript:void(0);" onclick="signOut()">Cerrar Sesión</a></div>
         </nav>
     </header>
     <section class="withoutHeader splash" id="splash">
         <div class="loader"></div>
         <h1>NOTARDO</h1>
+        <div id="contenedorFrases">
+            <p id="FrasesMotivacionales"></p>
+        </div>
     </section>
-    <section class="withoutHeader signIn login" id="signIn">
+    <section class="withoutHeader signIn login oculto" id="signIn">
         <div>
             <h1>INICIAR SESIÓN</h1>
             <p>¡Bienvenido a Notardo!</p>
@@ -52,7 +56,7 @@
             </div>
         </div>
     </section>
-    <section class="withoutHeader signUp login" id="signUp">
+    <section class="withoutHeader signUp login oculto" id="signUp">
         <div>
             <h1>REGÍSTRATE</h1>
             <p>Crea tu cuenta para empezar a usar Notardo</p>
@@ -65,7 +69,7 @@
             </div>
         </div>
     </section>
-    <section id="home" class="colorHome">
+    <section id="home" class="colorHome oculto">
         <main>
             <div>
                 <h1 class="title">METAS</h1>
@@ -83,11 +87,11 @@
                 </div>
             </div>
             <div class="footer">
-                <img src="img/add.png" alt="" class="btn_add">
+                <img onclick="cambiarSeccion(4)" src="img/add.png" alt="" class="btn_add">
             </div>
         </main>
     </section>
-    <section id="addHome" class="colorHome">
+    <section id="addHome" class="colorHome oculto">
         <main>
             <div>
                 <h1 class="title">Nueva Meta</h1>
@@ -109,12 +113,12 @@
                 </div>
                 <div class="form_btns">
                     <input type="button" class="btn_create" value="Crear" onclick="nuevaMeta()">
-                    <input type="button" class="btn_cancel" value="Cancelar">
+                    <input type="button" class="btn_cancel" value="Cancelar" onclick="cambiarSeccion(3)">
                 </div>
             </form>
         </main>
     </section>
-    <section id="editHome" class="colorHome">
+    <section id="editHome" class="colorHome oculto">
         <main>
             <div>
                 <h1 class="title">Editar Meta</h1>
@@ -134,40 +138,34 @@
                 </div>
                 <div class="form_btns">
                     <input type="button" id="editMeta" class="btn_create" value="Editar">
-                    <input type="button" class="btn_cancel" value="Cancelar">
+                    <input type="button" class="btn_cancel" value="Cancelar" onclick="cambiarSeccion(3)">
                 </div>
             </form>
         </main>
     </section>
-    <section id="work" class="colorWork">
+    <section id="work" class="colorWork oculto">
         <main>
             <div class="work_date_header">
-                <p class="date_start work_date_item">dd/mm/yyyy</p>
-                <p class="date_finish work_date_item">dd/mm/yyyy</p>
+                <p class="date_start work_date_item"></p>
+                <p class="date_finish work_date_item"></p>
             </div>
             <div>
-                <h1 id="workNMeta" class="title">Nombre meta</h1>
-                <p id="workDMeta" class="work_description">DESCRIPCIÓN META Lorem ipsum dolor sit amet consecte adipisicing elit.
-                    Possimus, odio laborum</p>
+                <h1 id="workNMeta" class="title"></h1>
+                <p id="workDMeta" class="work_description"></p>
             </div>
             <div id="tareasList" class="list">
-                <div class="item incomplete" onclick="workAlert(this)">
-                    <h1>Nombre tarea 1 </h1>
-                    <img src="img/deleted.png" alt="" class="btn_deleted">
-                    <img src="img/edit.png" alt="" class="btn_edit">
-                </div>
             </div>
             <div class="footer" id="footer_work">
-                <img src="img/flecha-izquierda.png" alt="" class="btn_back">
-                <img src="img/add.png" alt="" class="btn_add">
+                <img src="img/flecha-izquierda.png" alt="" class="btn_back" onclick="cambiarSeccion(3)">
+                <img src="img/add.png" alt="" class="btn_add" onclick="cambiarSeccion(7)">
             </div>
         </main>
     </section>
-    <section id="addWork" class="colorWork">
+    <section id="addWork" class="colorWork oculto">
         <main>
             <div class="work_date_header">
-                <p class="date_start work_date_item">dd/mm/yyyy</p>
-                <p class="date_finish work_date_item">dd/mm/yyyy</p>
+                <p class="date_start work_date_item"></p>
+                <p class="date_finish work_date_item"></p>
             </div>
             <div>
                 <h1 class="title">Nueva Tarea</h1>
@@ -187,16 +185,16 @@
                 </div>
                 <div class="form_btns">
                     <input type="button" class="btn_create" value="Crear" onclick="nuevaTarea()">
-                    <input type="button" class="btn_cancel" value="Cancelar">
+                    <input type="button" class="btn_cancel" value="Cancelar" onclick="cambiarSeccion(6)">
                 </div>
             </form>
         </main>
     </section>
-    <section id="editWork" class="colorWork">
+    <section id="editWork" class="colorWork oculto">
         <main>
             <div class="work_date_header">
-                <p class="date_start work_date_item">dd/mm/yyyy</p>
-                <p class="date_finish work_date_item">dd/mm/yyyy</p>
+                <p class="date_start work_date_item"></p>
+                <p class="date_finish work_date_item"></p>
             </div>
             <div>
                 <h1 class="title">Editar Tarea</h1>
@@ -216,16 +214,16 @@
                 </div>
                 <div class="form_btns">
                     <input type="button" id="editTarea" class="btn_create" value="Editar">
-                    <input type="button" class="btn_cancel" value="Cancelar">
+                    <input type="button" class="btn_cancel" value="Cancelar" onclick="cambiarSeccion(6)">
                 </div>
             </form>
         </main>
     </section>
-    <section id="calendar">
+    <section id="calendar" class="oculto">
         <div class="calendar">
             <div class="calendar__info">
                 <div class="calendar__prev" id="prev-month">&#9664;</div>
-                <div class="calendar__month" id="month">Enero</div>
+                <div class="calendar__month" id="month"></div>
                 <div class="calendar__year" id="year"></div>
                 <div class="calendar__next" id="next-month">&#9654;</div>
             </div>
@@ -243,11 +241,11 @@
             <div class="calendar__dates" id="dates"></div>
         </div>
     </section>
-    <section id="statistics">
+    <section id="statistics" class="oculto">
         <div class="calendar">
             <div class="calendar__info">
                 <div class="calendar__prev" id="prev-month-statistics">&#9664;</div>
-                <div class="calendar__month" id="month-statistics">Enero</div>
+                <div class="calendar__month" id="month-statistics"></div>
                 <div class="calendar__year" id="year-statistics"></div>
                 <div class="calendar__next" id="next-month-statistics">&#9654;</div>
             </div>
